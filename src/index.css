@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Custom cubic-bezier transition curves for high-end feel */
+.ease-vanguard {
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Subtle glow effects */
+.glow-cyan {
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.45);
+}
+
+.glow-amber {
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.45);
+}
+
+.box-glow-cyan {
+  box-shadow: 0 0 40px -10px rgba(34, 211, 238, 0.2);
+}
+
+/* Subtle concentric inner highlight */
+.inner-highlight {
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Canvas styling */
+canvas {
+  touch-action: pan-y;
+}
