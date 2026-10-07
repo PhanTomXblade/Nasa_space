@@ -171,7 +171,6 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
         const progress = Math.max(0, Math.min(1, (scrollY - aboutTop) / Math.max(1, totalDocHeight - aboutTop)));
         targetFrame = 41 + progress * (50 - 41);
       }
-      }
 
       targetFrameRef.current = Math.max(1, Math.min(TOTAL_FRAMES, targetFrame));
     };
