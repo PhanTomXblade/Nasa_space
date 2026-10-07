@@ -265,30 +265,30 @@ export default function PlanetaryMap({
   };
 
   return (
-    <div className="relative w-full h-[620px] sm:h-[700px] rounded-3xl overflow-hidden border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] bg-[#030712]">
+    <div className="relative w-full h-[500px] xs:h-[580px] sm:h-[660px] lg:h-[700px] rounded-2xl sm:rounded-3xl overflow-hidden border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] bg-[#030712]">
       {/* MapLibre WebGL Canvas Container */}
       <div ref={mapContainerRef} className="w-full h-full" />
 
       {/* Top Floating Control Deck */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
+      <div className="absolute top-3 xs:top-4 left-3 xs:left-4 right-3 xs:right-4 z-20 flex flex-wrap items-center justify-between gap-2 xs:gap-3 pointer-events-none">
         
         {/* Planet Toggle: Moon vs Mars */}
-        <div className="pointer-events-auto flex items-center p-1 rounded-2xl bg-black/80 backdrop-blur-xl border border-emerald-500/30 shadow-2xl">
+        <div className="pointer-events-auto flex items-center p-0.5 xs:p-1 rounded-xl xs:rounded-2xl bg-black/80 backdrop-blur-xl border border-emerald-500/30 shadow-2xl">
           <button
             onClick={() => onBodyChange('Moon')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center space-x-1.5 cursor-pointer ${
+            className={`px-2.5 xs:px-4 py-1.5 xs:py-2 rounded-lg xs:rounded-xl text-[10px] xs:text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center space-x-1 xs:space-x-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               selectedBody === 'Moon'
                 ? 'bg-gradient-to-r from-amber-400/20 to-amber-200/10 text-amber-200 border border-amber-400/40 shadow-[0_0_15px_rgba(251,191,36,0.25)]'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <span>🌕</span>
-            <span>The Moon</span>
+            <span>Moon</span>
           </button>
 
           <button
             onClick={() => onBodyChange('Mars')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center space-x-1.5 cursor-pointer ${
+            className={`px-2.5 xs:px-4 py-1.5 xs:py-2 rounded-lg xs:rounded-xl text-[10px] xs:text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center space-x-1 xs:space-x-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               selectedBody === 'Mars'
                 ? 'bg-gradient-to-r from-rose-500/20 to-red-400/10 text-rose-200 border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.25)]'
                 : 'text-slate-400 hover:text-white'
@@ -303,13 +303,13 @@ export default function PlanetaryMap({
         <div className="pointer-events-auto flex items-center space-x-2">
           {/* Search Input */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 xs:left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder={`Search ${selectedBody} monuments...`}
+              placeholder={`Search ${selectedBody}...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 pr-3 py-1.5 w-44 sm:w-56 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 text-xs font-mono text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 transition-all"
+              className="pl-7 xs:pl-8 pr-2.5 xs:pr-3 py-1.5 w-28 xs:w-36 sm:w-56 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 text-[11px] xs:text-xs font-mono text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all"
             />
           </div>
 
@@ -319,7 +319,7 @@ export default function PlanetaryMap({
               <button
                 key={type}
                 onClick={() => setActiveFilter(type)}
-                className={`px-2.5 py-1 rounded-lg capitalize transition-colors cursor-pointer ${
+                className={`px-2.5 py-1 rounded-lg capitalize transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                   activeFilter === type
                     ? 'bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30'
                     : 'text-slate-400 hover:text-white'
@@ -333,10 +333,10 @@ export default function PlanetaryMap({
       </div>
 
       {/* Floating Map Navigation Widget (Right) */}
-      <div className="absolute top-20 right-4 z-20 flex flex-col space-y-1.5 pointer-events-auto select-none">
+      <div className="absolute top-18 xs:top-20 right-2.5 sm:right-4 z-20 flex flex-col space-y-1.5 pointer-events-auto select-none">
         <button
           onClick={handleZoomIn}
-          className="w-9 h-9 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-white active:scale-95 transition-all flex items-center justify-center cursor-pointer shadow-lg group"
+          className="w-8 h-8 xs:w-9 xs:h-9 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all flex items-center justify-center cursor-pointer shadow-lg group"
           title="Zoom In"
           aria-label="Zoom In"
         >
@@ -344,7 +344,7 @@ export default function PlanetaryMap({
         </button>
         <button
           onClick={handleZoomOut}
-          className="w-9 h-9 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-white active:scale-95 transition-all flex items-center justify-center cursor-pointer shadow-lg group"
+          className="w-8 h-8 xs:w-9 xs:h-9 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all flex items-center justify-center cursor-pointer shadow-lg group"
           title="Zoom Out"
           aria-label="Zoom Out"
         >
@@ -352,7 +352,7 @@ export default function PlanetaryMap({
         </button>
         <button
           onClick={handleResetNorth}
-          className="w-9 h-9 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-white active:scale-95 transition-all flex items-center justify-center cursor-pointer shadow-lg group"
+          className="w-8 h-8 xs:w-9 xs:h-9 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all flex items-center justify-center cursor-pointer shadow-lg group"
           title={Math.abs(bearing) > 1 ? "Reset North Bearing" : "Reset Planet Overview"}
           aria-label="Reset Orientation or Overview"
         >

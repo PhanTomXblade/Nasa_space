@@ -47,23 +47,23 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8 z-10"
+      className="relative py-12 xs:py-16 sm:py-24 px-3.5 sm:px-6 lg:px-8 z-10"
     >
       <div className="max-w-6xl mx-auto w-full">
         {/* Section Header wrapped in Double-Bezel Frosted Glass for Maximum Text Legibility */}
-        <div className="relative max-w-3xl mx-auto mb-12 rounded-[2rem] p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.15)]">
-          <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] px-6 sm:px-10 py-8 bg-black/75 inner-highlight text-center">
+        <div className="relative max-w-3xl mx-auto mb-8 xs:mb-12 rounded-2xl xs:rounded-[2rem] p-1 xs:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.15)]">
+          <div className="relative overflow-hidden rounded-[calc(1rem-0.125rem)] xs:rounded-[calc(2rem-0.375rem)] px-4 xs:px-6 sm:px-10 py-6 xs:py-8 bg-black/75 inner-highlight text-center">
             {/* Flowing Cosmic Nebula Mesh Background */}
             <div className="aurora-mesh-bg" aria-hidden="true" />
 
             <div className="relative z-10">
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-display uppercase mb-4 leading-tight radiant-headline">
+              <h2 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight font-display uppercase mb-3 xs:mb-4 leading-tight radiant-headline">
                 Preserving Footprints in the Stars
               </h2>
 
-              <p className="text-sm sm:text-base font-sans leading-relaxed max-w-2xl mx-auto radiant-subhead font-normal">
+              <p className="text-xs xs:text-sm sm:text-base font-sans leading-relaxed max-w-2xl mx-auto radiant-subhead font-normal">
                 Developed for the 2026 NASA Space Apps Challenge:
-                <span className="block mt-2 text-xs sm:text-sm font-mono radiant-badge-text font-semibold">
+                <span className="block mt-1.5 xs:mt-2 text-xs sm:text-sm font-mono radiant-badge-text font-semibold">
                   "Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment on the Moon and Mars"
                 </span>
               </p>
@@ -72,15 +72,15 @@ export default function AboutSection() {
         </div>
 
         {/* 3 Core Pillars in Double-Bezel Bento Architecture */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-6 mb-12 xs:mb-16">
           {PRINCIPLES.map((item, index) => {
             const Icon = item.icon;
             return (
               <div
                 key={index}
-                className="relative rounded-[2rem] p-1.5 ring-1 ring-emerald-500/20 bg-emerald-950/20 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:ring-emerald-500/40"
+                className="relative rounded-2xl xs:rounded-[2rem] p-1 xs:p-1.5 ring-1 ring-emerald-500/20 bg-emerald-950/20 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:ring-emerald-500/40"
               >
-                <div className="relative overflow-hidden h-full rounded-[calc(2rem-0.375rem)] p-8 bg-black/80 inner-highlight flex flex-col justify-between">
+                <div className="relative overflow-hidden h-full rounded-[calc(1rem-0.125rem)] xs:rounded-[calc(2rem-0.375rem)] p-5 xs:p-8 bg-black/80 inner-highlight flex flex-col justify-between">
                   {/* Flowing Cosmic Nebula Mesh Background */}
                   <div className="aurora-mesh-bg" aria-hidden="true" />
 

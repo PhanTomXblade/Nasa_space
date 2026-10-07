@@ -2,50 +2,51 @@ import React from 'react';
 import { ArrowDown } from 'lucide-react';
 
 export default function HomeSection() {
-  const scrollToStory = () => {
-    const story = document.getElementById('story');
-    if (story) {
-      story.scrollIntoView({ behavior: 'smooth' });
+  const scrollToAtlas = () => {
+    const atlas = document.getElementById('atlas') || document.getElementById('story');
+    if (atlas) {
+      atlas.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8 pt-24 pb-12 z-10"
+      className="relative min-h-screen flex flex-col justify-center items-center text-center px-3.5 sm:px-6 lg:px-8 pt-20 xs:pt-24 pb-12 z-10"
     >
       {/* Central Hero Block wrapped in Double-Bezel Frosted Glass for Maximum Text Legibility */}
-      <div className="relative max-w-4xl mx-auto rounded-[2.5rem] p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.18)]">
-        <div className="relative overflow-hidden rounded-[calc(2.5rem-0.375rem)] px-6 sm:px-12 py-10 sm:py-14 bg-black/70 inner-highlight flex flex-col items-center">
+      <div className="relative max-w-4xl mx-auto rounded-2xl xs:rounded-[2.5rem] p-1 xs:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.18)]">
+        <div className="relative overflow-hidden rounded-[calc(1rem-0.125rem)] xs:rounded-[calc(2.5rem-0.375rem)] px-4 xs:px-6 sm:px-12 py-8 xs:py-10 sm:py-14 bg-black/70 inner-highlight flex flex-col items-center">
           {/* Flowing Cosmic Nebula Mesh Background */}
           <div className="aurora-mesh-bg" aria-hidden="true" />
 
           {/* Content Layer */}
           <div className="relative z-10 flex flex-col items-center">
-            {/* Ultra-Wide H1 (Strictly 2 Lines) */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-display uppercase mb-4 leading-[1.1] max-w-3xl radiant-headline">
+            {/* Ultra-Wide H1 */}
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-display uppercase mb-3 xs:mb-4 leading-[1.1] max-w-3xl radiant-headline">
               Silent Sentinels Across the Cosmos
             </h1>
 
             {/* Refined Sub-Head */}
-            <p className="text-sm sm:text-lg font-mono mb-6 tracking-wide max-w-xl radiant-subhead font-semibold">
+            <p className="text-xs xs:text-sm sm:text-lg font-mono mb-4 xs:mb-6 tracking-wide max-w-xl radiant-subhead font-semibold">
               NASA's Forgotten Hardware on Alien Worlds
             </p>
 
             {/* Narrative Hook */}
-            <p className="text-sm sm:text-base text-slate-200 font-sans max-w-2xl leading-relaxed mb-8">
+            <p className="text-xs xs:text-sm sm:text-base text-slate-200 font-sans max-w-2xl leading-relaxed mb-6 xs:mb-8">
               Before humans took their first steps on extraterrestrial soil, robotic scouts braved cosmic radiation and absolute zero to chart the unknown. Today, these pioneers stand as eternal monuments of human curiosity.
             </p>
 
             {/* Button-in-Button Nested CTA Architecture */}
             <button
-              onClick={scrollToStory}
-              className="group relative inline-flex items-center pl-7 pr-2.5 py-2.5 rounded-full bg-emerald-400 hover:bg-emerald-300 active:scale-[0.98] transition-all duration-300 ease-vanguard shadow-[0_0_30px_rgba(52,211,153,0.45)] cursor-pointer"
+              onClick={scrollToAtlas}
+              className="group relative inline-flex items-center pl-5 xs:pl-7 pr-2 xs:pr-2.5 py-2 xs:py-2.5 rounded-full bg-emerald-400 hover:bg-emerald-300 active:scale-[0.98] transition-all duration-300 ease-vanguard shadow-[0_0_30px_rgba(52,211,153,0.45)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              aria-label="Begin The Voyage to the Planetary Atlas"
             >
-              <span className="text-xs sm:text-sm font-bold font-sans tracking-wider uppercase text-emerald-950 mr-4">
+              <span className="text-xs sm:text-sm font-bold font-sans tracking-wider uppercase text-emerald-950 mr-3 xs:mr-4">
                 Begin The Voyage
               </span>
-              <span className="w-8 h-8 rounded-full bg-emerald-950/20 border border-emerald-950/30 flex items-center justify-center group-hover:translate-y-0.5 group-hover:scale-105 transition-all duration-300 ease-vanguard">
+              <span className="w-7 h-7 xs:w-8 xs:h-8 rounded-full bg-emerald-950/20 border border-emerald-950/30 flex items-center justify-center group-hover:translate-y-0.5 group-hover:scale-105 transition-all duration-300 ease-vanguard">
                 <ArrowDown className="w-3.5 h-3.5 text-emerald-950" strokeWidth={2} />
               </span>
             </button>

@@ -223,6 +223,26 @@ export default function ObjectDetailPanel({
     return () => panel.removeEventListener('wheel', handleWheel);
   }, [selectedObject]);
 
+  // Keyboard Accessibility: Escape closes modal, Left/Right arrows navigate relics
+  useEffect(() => {
+    if (!selectedObject) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      } else if (e.key === 'ArrowLeft' && hasPrev) {
+        e.preventDefault();
+        onPrev();
+      } else if (e.key === 'ArrowRight' && hasNext) {
+        e.preventDefault();
+        onNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedObject, onClose, onPrev, onNext, hasPrev, hasNext]);
+
   if (!selectedObject) return null;
 
   const props = selectedObject.properties;
@@ -239,12 +259,15 @@ export default function ObjectDetailPanel({
   return (
     <aside
       ref={panelRef}
-      className="relative w-full h-full max-h-[90vh] lg:max-h-full rounded-[2rem] p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.18)] transition-all duration-300 flex flex-col overflow-hidden overscroll-contain select-text"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="monument-title"
+      className="relative w-full h-full max-h-[92vh] lg:max-h-full rounded-2xl sm:rounded-[2rem] p-1 sm:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.18)] transition-all duration-300 flex flex-col overflow-hidden overscroll-contain select-text"
       style={{ overscrollBehavior: 'contain' }}
       aria-label="Object Telemetry Panel"
     >
       {/* Inner Screen Container */}
-      <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] bg-black/85 inner-highlight flex flex-col h-full text-white">
+      <div className="relative overflow-hidden rounded-[calc(1rem-0.125rem)] sm:rounded-[calc(2rem-0.375rem)] bg-black/85 inner-highlight flex flex-col h-full text-white">
         
         {/* Subtle Ambient Cosmic Aurora Mesh */}
         <div className="aurora-mesh-bg opacity-20 pointer-events-none" aria-hidden="true" />
@@ -324,7 +347,7 @@ export default function ObjectDetailPanel({
         {/* Scrollable Telemetry Details */}
         <div
           ref={scrollContainerRef}
-          className="relative z-10 flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-5 custom-scrollbar overscroll-contain"
+          className="relative z-10 flex-1 overflow-y-auto px-3.5 sm:px-6 py-4 sm:py-5 space-y-4 sm:space-y-5 custom-scrollbar overscroll-contain"
           style={{ overscrollBehavior: 'contain' }}
         >
           {/* Mission Tag & Radiant Title */}
@@ -335,7 +358,7 @@ export default function ObjectDetailPanel({
                 {props.mission}
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-display font-extrabold uppercase leading-tight radiant-headline">
+            <h2 id="monument-title" className="text-xl xs:text-2xl sm:text-3xl font-display font-extrabold uppercase leading-tight radiant-headline">
               {activeName}
             </h2>
           </div>

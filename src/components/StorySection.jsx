@@ -122,43 +122,43 @@ export default function StorySection() {
   return (
     <section
       id="story"
-      className="relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8 z-10"
+      className="relative py-12 xs:py-16 sm:py-24 px-3 xs:px-4 sm:px-6 lg:px-8 z-10"
     >
       <div className="max-w-6xl mx-auto w-full">
         {/* Main Double-Bezel Showcase Container */}
-        <div className="relative max-w-6xl mx-auto rounded-[2.5rem] p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_60px_rgba(16,185,129,0.18)]">
-          <div className="relative overflow-hidden rounded-[calc(2.5rem-0.375rem)] px-4 sm:px-10 py-10 sm:py-16 bg-black/75 inner-highlight flex flex-col items-center">
+        <div className="relative max-w-6xl mx-auto rounded-2xl xs:rounded-[2.5rem] p-1 xs:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_60px_rgba(16,185,129,0.18)]">
+          <div className="relative overflow-hidden rounded-[calc(1rem-0.125rem)] xs:rounded-[calc(2.5rem-0.375rem)] px-3 xs:px-6 sm:px-10 py-8 xs:py-10 sm:py-16 bg-black/75 inner-highlight flex flex-col items-center">
             {/* Flowing Cosmic Nebula Mesh Background */}
             <div className="aurora-mesh-bg" aria-hidden="true" />
 
             {/* Inner Content Layer */}
             <div className="relative z-10 w-full flex flex-col items-center">
               
-              {/* Top Floating Control Bar (Mirroring reference floating island) */}
-              <div className="w-full max-w-3xl flex items-center justify-between gap-4 mb-8 sm:mb-12">
-                <div className="flex items-center space-x-2 text-[10px] sm:text-xs font-mono uppercase tracking-widest radiant-badge px-3.5 py-1.5 rounded-full">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+              {/* Top Floating Control Bar */}
+              <div className="w-full max-w-3xl flex items-center justify-between gap-2 xs:gap-4 mb-6 xs:mb-8 sm:mb-12">
+                <div className="flex items-center space-x-1.5 text-[9px] xs:text-[10px] sm:text-xs font-mono uppercase tracking-widest radiant-badge px-2.5 xs:px-3.5 py-1 xs:py-1.5 rounded-full">
+                  <Sparkles className="w-3 xs:w-3.5 h-3 xs:h-3.5 text-emerald-400" />
                   <span className="radiant-badge-text font-semibold">Planetary Archive</span>
                 </div>
 
                 {/* Center Previous / Next Carousel Controls */}
-                <div className="flex items-center space-x-1.5 bg-black/60 border border-white/10 rounded-full p-1 backdrop-blur-xl">
+                <div className="flex items-center space-x-1 xs:space-x-1.5 bg-black/60 border border-white/10 rounded-full p-1 backdrop-blur-xl">
                   <button
                     onClick={handlePrev}
-                    className="p-1.5 rounded-full bg-white/5 hover:bg-emerald-500/20 text-slate-300 hover:text-white transition-all duration-300 cursor-pointer"
+                    className="p-1 xs:p-1.5 rounded-full bg-white/5 hover:bg-emerald-500/20 text-slate-300 hover:text-white transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                     aria-label="Previous Monument"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-3.5 xs:w-4 h-3.5 xs:h-4" />
                   </button>
-                  <span className="px-2 text-[10px] font-mono text-emerald-400 font-bold">
+                  <span className="px-1.5 xs:px-2 text-[9px] xs:text-[10px] font-mono text-emerald-400 font-bold">
                     0{currentIndex + 1} / 0{HERO_STORIES.length}
                   </span>
                   <button
                     onClick={handleNext}
-                    className="p-1.5 rounded-full bg-white/5 hover:bg-emerald-500/20 text-slate-300 hover:text-white transition-all duration-300 cursor-pointer"
+                    className="p-1 xs:p-1.5 rounded-full bg-white/5 hover:bg-emerald-500/20 text-slate-300 hover:text-white transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                     aria-label="Next Monument"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-3.5 xs:w-4 h-3.5 xs:h-4" />
                   </button>
                 </div>
 

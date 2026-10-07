@@ -104,14 +104,15 @@ export default function Navbar({ activeSection = 'home' }) {
                   key={tab.id}
                   href={tab.href}
                   onClick={(e) => handleNavClick(e, tab.href)}
-                  className={`relative w-18 sm:w-22 md:w-24 h-9 sm:h-10 flex items-center justify-center rounded-full transition-all duration-300 select-none ${
+                  className={`relative w-14 xs:w-16 sm:w-22 md:w-24 h-8 xs:h-9 sm:h-10 flex items-center justify-center rounded-full transition-all duration-300 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                     isActive
                       ? 'text-white'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
                   }`}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   <span
-                    className={`text-xs font-mono tracking-wider transition-all duration-300 ${
+                    className={`text-[10px] xs:text-xs font-mono tracking-wider transition-all duration-300 ${
                       isActive
                         ? 'radiant-badge-text font-bold scale-105'
                         : 'font-medium'

@@ -95,7 +95,7 @@ export default function TimelineScrubber({
               {/* Play / Pause */}
               <button
                 onClick={handlePlayToggle}
-                className={`p-1.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer ${
+                className={`p-1.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                   isPlaying
                     ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.3)]'
                     : 'bg-emerald-500/20 border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-300'
@@ -109,9 +109,9 @@ export default function TimelineScrubber({
               {/* Reset */}
               <button
                 onClick={handleReset}
-                className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                 title="Reset to Present (2026)"
-                aria-label="Reset Timeline"
+                aria-label="Reset Timeline to 2026"
               >
                 <RotateCcw className="w-3 h-3" />
               </button>
@@ -126,11 +126,17 @@ export default function TimelineScrubber({
               max="2026"
               step="1"
               value={currentYear}
+              role="slider"
+              aria-label="Mission Era Year Scrubber"
+              aria-valuemin="1964"
+              aria-valuemax="2026"
+              aria-valuenow={currentYear}
+              aria-valuetext={`Year ${currentYear}`}
               onChange={(e) => {
                 setIsPlaying(false);
                 onYearChange(parseInt(e.target.value, 10));
               }}
-              className="w-full h-1.5 bg-slate-800/90 rounded-full appearance-none cursor-pointer accent-emerald-400 hover:accent-emerald-300 focus:outline-none"
+              className="w-full h-1.5 bg-slate-800/90 rounded-full appearance-none cursor-pointer accent-emerald-400 hover:accent-emerald-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             />
 
             {/* Milestone Tick Marks (Compact & Aligned) */}
@@ -145,7 +151,8 @@ export default function TimelineScrubber({
                       onYearChange(m.year);
                       if (onMilestoneSelect) onMilestoneSelect(m);
                     }}
-                    className={`group relative flex flex-col items-center transition-all cursor-pointer ${
+                    aria-label={`Jump to ${m.label} (${m.year})`}
+                    className={`group relative flex flex-col items-center transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded ${
                       isPassed ? 'text-emerald-400' : 'text-slate-600 hover:text-slate-400'
                     }`}
                   >

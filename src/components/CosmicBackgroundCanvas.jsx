@@ -180,17 +180,26 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Continuous animation loop for buttery smooth momentum lerping
+  // Continuous animation loop for buttery smooth momentum lerping (respects prefers-reduced-motion)
   useEffect(() => {
-    const tick = () => {
-      const current = renderedFrameRef.current;
-      const target = targetFrameRef.current;
-      const diff = target - current;
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (Math.abs(diff) > 0.005) {
-        // Smooth ease factor for liquid video feel
-        renderedFrameRef.current = current + diff * 0.12;
-        drawFrame(renderedFrameRef.current);
+    const tick = () => {
+      const target = targetFrameRef.current;
+      if (prefersReducedMotion) {
+        if (Math.abs(target - renderedFrameRef.current) > 0.01) {
+          renderedFrameRef.current = target;
+          drawFrame(target);
+        }
+      } else {
+        const current = renderedFrameRef.current;
+        const diff = target - current;
+
+        if (Math.abs(diff) > 0.005) {
+          // Smooth ease factor for liquid video feel
+          renderedFrameRef.current = current + diff * 0.12;
+          drawFrame(renderedFrameRef.current);
+        }
       }
 
       animFrameIdRef.current = requestAnimationFrame(tick);
