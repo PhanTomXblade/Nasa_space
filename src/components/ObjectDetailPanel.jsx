@@ -262,7 +262,7 @@ export default function ObjectDetailPanel({
       role="dialog"
       aria-modal="true"
       aria-labelledby="monument-title"
-      className="relative w-full h-full max-h-[92vh] lg:max-h-full rounded-2xl sm:rounded-[2rem] p-1 sm:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.18)] transition-all duration-300 flex flex-col overflow-hidden overscroll-contain select-text"
+      className="relative w-full max-w-lg lg:max-w-none h-full max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-7rem)] lg:max-h-full rounded-2xl sm:rounded-[2rem] p-1 sm:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-3xl shadow-[0_0_50px_rgba(16,185,129,0.18)] transition-all duration-300 flex flex-col overflow-hidden overscroll-contain select-text"
       style={{ overscrollBehavior: 'contain' }}
       aria-label="Object Telemetry Panel"
     >

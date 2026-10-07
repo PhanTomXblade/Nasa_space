@@ -133,9 +133,16 @@ export default function PlanetaryAtlasSection() {
               />
             </div>
 
-            {/* Object Telemetry Panel: Side-by-Side Companion Card on Desktop, Centered Modal on Mobile */}
+            {/* Object Telemetry Panel: Side-by-Side Companion Card on Desktop, Modal Anchored Below Navbar on Mobile */}
             {selectedObject && (
-              <div className="fixed inset-0 z-50 p-2 xs:p-3 sm:p-4 flex items-center justify-center bg-black/70 backdrop-blur-sm lg:relative lg:inset-auto lg:z-auto lg:p-0 lg:bg-transparent lg:backdrop-blur-none lg:w-[460px] xl:w-[500px] lg:h-[620px] lg:sm:h-[700px] shrink-0 animate-in fade-in slide-in-from-right duration-300">
+              <div
+                className="fixed inset-0 z-40 pt-20 sm:pt-24 pb-3 sm:pb-4 px-2 xs:px-3 sm:px-4 flex items-start justify-center bg-black/75 backdrop-blur-sm lg:relative lg:inset-auto lg:z-auto lg:p-0 lg:bg-transparent lg:backdrop-blur-none lg:w-[460px] xl:w-[500px] lg:h-[620px] lg:sm:h-[700px] shrink-0 animate-in fade-in duration-300"
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) {
+                    setSelectedObject(null);
+                  }
+                }}
+              >
                 <ObjectDetailPanel
                   selectedObject={selectedObject}
                   onClose={() => setSelectedObject(null)}
