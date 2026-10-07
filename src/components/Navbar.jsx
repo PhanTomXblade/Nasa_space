@@ -40,18 +40,18 @@ export default function Navbar({ activeSection }) {
             className="group flex items-center space-x-3 focus:outline-none"
             aria-label="Silent Sentinels - Home"
           >
-            <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-cyan-950/70 border border-cyan-400/30 group-hover:border-cyan-400 transition-all duration-300">
-              <Compass className="w-4 h-4 text-cyan-400 animate-[spin_20s_linear_infinite]" strokeWidth={1.5} />
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-cyan-400 animate-ping opacity-75" />
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-cyan-400" />
+            <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-emerald-950/70 border border-emerald-400/30 group-hover:border-emerald-400 transition-all duration-300">
+              <Compass className="w-4 h-4 text-emerald-400 animate-[spin_20s_linear_infinite]" strokeWidth={1.5} />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping opacity-75" />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400" />
             </div>
 
             <div className="flex items-center space-x-2">
-              <span className="text-sm sm:text-base font-bold tracking-wider text-white uppercase font-display">
+              <span className="text-sm sm:text-base font-bold tracking-wider uppercase font-display radiant-headline">
                 Silent Sentinels
               </span>
-              <span className="hidden md:inline-block px-2 py-0.5 text-[9px] font-mono tracking-widest uppercase bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded-full">
-                NASA 2026
+              <span className="hidden md:inline-block px-2.5 py-0.5 text-[9px] font-mono tracking-widest uppercase radiant-badge rounded-full">
+                <span className="radiant-badge-text font-semibold">NASA 2026</span>
               </span>
             </div>
           </a>
@@ -67,7 +67,7 @@ export default function Navbar({ activeSection }) {
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={`text-xs font-mono tracking-wide px-4 py-1.5 rounded-full transition-all duration-300 ease-vanguard ${
                     isActive
-                      ? 'bg-cyan-500 text-cyan-950 font-bold shadow-[0_0_15px_rgba(34,211,238,0.35)]'
+                      ? 'bg-gradient-to-r from-emerald-200 via-emerald-400 to-teal-300 text-emerald-950 font-bold shadow-[0_0_15px_rgba(52,211,153,0.5)]'
                       : 'text-slate-300 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -102,7 +102,7 @@ export default function Navbar({ activeSection }) {
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`block px-4 py-2.5 text-sm font-mono rounded-2xl transition-all ${
                   isActive
-                    ? 'bg-cyan-500 text-cyan-950 font-bold'
+                    ? 'bg-gradient-to-r from-emerald-200 via-emerald-400 to-teal-300 text-emerald-950 font-bold'
                     : 'text-slate-300 hover:bg-white/5 hover:text-white'
                 }`}
               >

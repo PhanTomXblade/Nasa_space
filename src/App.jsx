@@ -31,7 +31,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#030712] text-white flex flex-col font-sans selection:bg-cyan-900 selection:text-cyan-100">
+    <div className="relative min-h-screen bg-[#030712] text-white flex flex-col font-sans selection:bg-emerald-900 selection:text-emerald-100">
       {/* Fixed Navbar with Home, Story, About Us */}
       <Navbar activeSection={currentSection} />
 

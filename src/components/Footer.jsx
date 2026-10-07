@@ -10,11 +10,11 @@ export default function Footer() {
     <footer className="relative z-10 bg-black/90 border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-cyan-950/80 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+          <div className="w-8 h-8 rounded-full bg-emerald-950/80 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.25)]">
             <Compass className="w-4 h-4" strokeWidth={1.5} />
           </div>
           <div>
-            <div className="text-sm font-bold text-white font-display">
+            <div className="text-sm font-bold uppercase font-display radiant-headline">
               Silent Sentinels
             </div>
             <div className="text-[11px] text-slate-400 font-mono">
@@ -24,20 +24,20 @@ export default function Footer() {
         </div>
 
         <div className="flex items-center space-x-6 text-xs text-slate-400 font-mono">
-          <a href="#home" className="hover:text-cyan-400 transition-colors">Home</a>
-          <a href="#story" className="hover:text-cyan-400 transition-colors">Story</a>
-          <a href="#about" className="hover:text-cyan-400 transition-colors">About Us</a>
+          <a href="#home" className="hover:text-emerald-400 transition-colors">Home</a>
+          <a href="#story" className="hover:text-emerald-400 transition-colors">Story</a>
+          <a href="#about" className="hover:text-emerald-400 transition-colors">About Us</a>
         </div>
 
         {/* Button-in-Button Scroll to Top */}
         <button
           onClick={scrollToTop}
-          className="group inline-flex items-center pl-4 pr-1.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-cyan-400/40 text-xs font-mono text-slate-300 hover:text-white transition-all duration-300 ease-vanguard cursor-pointer"
+          className="group inline-flex items-center pl-4 pr-1.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-emerald-400/40 text-xs font-mono text-slate-300 hover:text-white transition-all duration-300 ease-vanguard cursor-pointer"
           aria-label="Back to top"
         >
           <span className="mr-2">Return to Earth Orbit</span>
-          <span className="w-6 h-6 rounded-full bg-cyan-950/80 border border-cyan-400/30 flex items-center justify-center group-hover:-translate-y-0.5 transition-transform">
-            <ArrowUp className="w-3 h-3 text-cyan-400" strokeWidth={2} />
+          <span className="w-6 h-6 rounded-full bg-emerald-950/80 border border-emerald-400/30 flex items-center justify-center group-hover:-translate-y-0.5 transition-transform">
+            <ArrowUp className="w-3 h-3 text-emerald-400" strokeWidth={2} />
           </span>
         </button>
       </div>
