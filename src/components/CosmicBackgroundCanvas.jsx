@@ -131,13 +131,15 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
     return () => window.removeEventListener('resize', updateCanvasDimensions);
   }, [updateCanvasDimensions]);
 
-  // Map scroll position of Home, Story, and About to exact frame ranges
-  // Home: Frames 1 - 15
-  // Story: Frames 16 - 35
-  // About: Frames 36 - 50
+  // Map scroll position across Home, Atlas, Story, and About
+  // Home: Frames 1 - 12 (Earth Departure)
+  // Atlas: Frames 13 - 26 (Moon & Mars Orbital Approach)
+  // Story: Frames 27 - 40 (Planetary Surface & Artifacts)
+  // About: Frames 41 - 50 (Galactic Horizon / Space Archaeology)
   useEffect(() => {
     const handleScroll = () => {
       const homeEl = document.getElementById('home');
+      const atlasEl = document.getElementById('atlas');
       const storyEl = document.getElementById('story');
       const aboutEl = document.getElementById('about');
 
@@ -146,23 +148,29 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
       const scrollY = window.scrollY;
       const homeTop = homeEl.offsetTop;
       const storyTop = storyEl.offsetTop;
+      const atlasTop = atlasEl ? atlasEl.offsetTop : storyTop * 0.4;
       const aboutTop = aboutEl.offsetTop;
       const totalDocHeight = document.documentElement.scrollHeight - window.innerHeight;
 
       let targetFrame = 1;
 
-      if (scrollY < storyTop) {
-        // Within Home section: map 0 to (storyTop) -> Frame 1 to 15
-        const progress = Math.max(0, Math.min(1, (scrollY - homeTop) / Math.max(1, storyTop - homeTop)));
-        targetFrame = 1 + progress * (15 - 1);
+      if (atlasEl && scrollY < atlasTop) {
+        // Within Home section: Frames 1 to 12
+        const progress = Math.max(0, Math.min(1, (scrollY - homeTop) / Math.max(1, atlasTop - homeTop)));
+        targetFrame = 1 + progress * (12 - 1);
+      } else if (scrollY < storyTop) {
+        // Within Atlas section: Frames 13 to 26
+        const progress = Math.max(0, Math.min(1, (scrollY - atlasTop) / Math.max(1, storyTop - atlasTop)));
+        targetFrame = 13 + progress * (26 - 13);
       } else if (scrollY < aboutTop) {
-        // Within Story section: map storyTop to aboutTop -> Frame 16 to 35
+        // Within Story section: Frames 27 to 40
         const progress = Math.max(0, Math.min(1, (scrollY - storyTop) / Math.max(1, aboutTop - storyTop)));
-        targetFrame = 16 + progress * (35 - 16);
+        targetFrame = 27 + progress * (40 - 27);
       } else {
-        // Within About section: map aboutTop to bottom -> Frame 36 to 50
+        // Within About section: Frames 41 to 50
         const progress = Math.max(0, Math.min(1, (scrollY - aboutTop) / Math.max(1, totalDocHeight - aboutTop)));
-        targetFrame = 36 + progress * (50 - 36);
+        targetFrame = 41 + progress * (50 - 41);
+      }
       }
 
       targetFrameRef.current = Math.max(1, Math.min(TOTAL_FRAMES, targetFrame));

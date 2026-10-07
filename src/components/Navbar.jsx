@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Orbit, ShieldCheck } from 'lucide-react';
+import { Compass, Globe, Orbit, ShieldCheck } from 'lucide-react';
 
 const TABS = [
   { id: 'home', name: 'Home', href: '#home', icon: Compass },
+  { id: 'atlas', name: 'Atlas', href: '#atlas', icon: Globe },
   { id: 'story', name: 'Story', href: '#story', icon: Orbit },
-  { id: 'about', name: 'About Us', href: '#about', icon: ShieldCheck },
+  { id: 'about', name: 'About', href: '#about', icon: ShieldCheck },
 ];
 
 export default function Navbar({ activeSection = 'home' }) {
@@ -68,7 +69,7 @@ export default function Navbar({ activeSection = 'home' }) {
           <div
             className="absolute top-0 left-0 h-full transition-transform duration-500 ease-vanguard pointer-events-none z-20 flex flex-col items-center"
             style={{
-              width: 'calc(100% / 3)',
+              width: `calc(100% / ${TABS.length})`,
               transform: `translateX(${activeIndex * 100}%)`,
             }}
           >
