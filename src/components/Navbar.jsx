@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Compass, Globe, Orbit, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Compass, Globe, Orbit, ShieldCheck, MoreHorizontal, X, Activity } from 'lucide-react';
 
 const TABS = [
   { id: 'home', name: 'Home', href: '#home', icon: Compass },
@@ -8,8 +8,15 @@ const TABS = [
   { id: 'about', name: 'About', href: '#about', icon: ShieldCheck },
 ];
 
-export default function Navbar({ activeSection = 'home' }) {
+export default function Navbar({
+  activeSection = 'home',
+  playbackMode = 'hybrid',
+  onPlaybackModeChange = () => {}
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const frameDisplayRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +25,38 @@ export default function Navbar({ activeSection = 'home' }) {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Real-time telemetry frame listener (Zero React re-render overhead)
+  useEffect(() => {
+    const handleFrameTick = (e) => {
+      if (frameDisplayRef.current && e.detail && e.detail.frame) {
+        frameDisplayRef.current.textContent = String(e.detail.frame).padStart(3, '0');
+      }
+    };
+    window.addEventListener('cosmic-frame-tick', handleFrameTick);
+    return () => window.removeEventListener('cosmic-frame-tick', handleFrameTick);
+  }, []);
+
+  // Close dropdown on click outside or Escape
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMenuOpen]);
 
   const activeIndex = Math.max(0, TABS.findIndex((t) => t.id === activeSection));
   const activeTab = TABS[activeIndex] || TABS[0];
@@ -32,9 +71,9 @@ export default function Navbar({ activeSection = 'home' }) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-4 pt-3 sm:pt-5 flex justify-center">
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-3 xs:px-4 pt-3 sm:pt-5 flex justify-center">
       {/* Unified Merged Floating Island Dock (Centered in Middle) */}
-      <div className="pointer-events-auto relative max-w-full rounded-full bg-black/75 backdrop-blur-2xl border border-white/10 ring-1 ring-white/5 shadow-2xl p-1.5 flex items-center space-x-1.5 sm:space-x-3 overflow-visible transition-all duration-300">
+      <div className="pointer-events-auto relative max-w-full rounded-full bg-black/80 backdrop-blur-2xl border border-white/10 ring-1 ring-white/5 shadow-2xl p-1.5 flex items-center space-x-1.5 sm:space-x-2.5 overflow-visible transition-all duration-300">
         
         {/* Subtle Ambient Aurora Flow inside dock */}
         <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
@@ -45,13 +84,15 @@ export default function Navbar({ activeSection = 'home' }) {
         <a
           href="#home"
           onClick={(e) => handleNavClick(e, '#home')}
-          className="relative z-10 group flex items-center space-x-2 pl-1 pr-1.5 focus:outline-none shrink-0"
+          className="relative z-10 group flex items-center space-x-2 pl-1 pr-1.5 focus:outline-none shrink-0 cursor-pointer"
           aria-label="Silent Sentinels - Home"
         >
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-emerald-950/80 border border-emerald-400/40 group-hover:border-emerald-300 transition-all duration-300 shadow-[0_0_12px_rgba(52,211,153,0.35)] shrink-0">
-            <Compass className="w-4 h-4 text-emerald-400 animate-[spin_25s_linear_infinite]" strokeWidth={1.5} />
-            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping opacity-75" />
-            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <div className="relative flex items-center justify-center h-8 px-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/40 group-hover:border-emerald-300 transition-all duration-300 shadow-[0_0_12px_rgba(52,211,153,0.3)] shrink-0">
+            <img
+              src="/logo.png"
+              alt="Silent Sentinels"
+              className="h-6 sm:h-7 w-auto object-contain drop-shadow-[0_0_6px_rgba(52,211,153,0.4)] group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
 
           <span className="hidden md:inline-block text-xs sm:text-sm font-bold tracking-wider uppercase font-display radiant-headline whitespace-nowrap">
@@ -79,7 +120,7 @@ export default function Navbar({ activeSection = 'home' }) {
               <span className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_white] animate-pulse" />
             </div>
 
-            {/* Seamless Scalloped Concave Cutout Stroke (Zero dark box artifact) */}
+            {/* Seamless Scalloped Concave Cutout Stroke */}
             <svg
               className="absolute -top-0.5 w-[72px] sm:w-[84px] h-4.5 pointer-events-none drop-shadow-[0_0_8px_rgba(52,211,153,0.6)]"
               viewBox="0 0 100 20"
@@ -130,10 +171,123 @@ export default function Navbar({ activeSection = 'home' }) {
         <div className="relative z-10 hidden sm:block h-5 w-px bg-white/10 shrink-0" />
 
         {/* 3. Right: NASA 2026 Credential Badge */}
-        <div className="relative z-10 hidden sm:flex items-center pr-1 shrink-0">
+        <div className="relative z-10 hidden sm:flex items-center pr-0.5 shrink-0">
           <span className="px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase radiant-badge rounded-full">
             <span className="radiant-badge-text font-semibold">NASA 2026</span>
           </span>
+        </div>
+
+        {/* 4. Three-Dot Options Menu Button & Popover */}
+        <div className="relative z-10 flex items-center pr-1 shrink-0" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none cursor-pointer ${
+              isMenuOpen
+                ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-400/60 shadow-[0_0_16px_rgba(52,211,153,0.45)]'
+                : 'text-slate-400 hover:text-white hover:bg-white/10'
+            }`}
+            aria-label="Cosmic Background Telemetry & Engine Settings"
+            aria-expanded={isMenuOpen}
+            title="Cosmic Background Telemetry & Controls"
+          >
+            {isMenuOpen ? (
+              <X className="w-3.5 h-3.5 text-emerald-300" />
+            ) : (
+              <MoreHorizontal className="w-4 h-4" />
+            )}
+          </button>
+
+          {/* Floating Dropdown Popover matching Double-Bezel Frosted Glass System */}
+          {isMenuOpen && (
+            <div className="absolute top-full right-0 mt-3.5 z-50 w-[330px] xs:w-[370px] sm:w-[420px] rounded-2xl xs:rounded-[1.75rem] p-1 xs:p-1.5 ring-1 ring-emerald-500/30 bg-emerald-950/25 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_50px_rgba(16,185,129,0.22)] animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+              
+              {/* Flowing Cosmic Nebula Mesh Background */}
+              <div className="aurora-mesh-bg opacity-35" aria-hidden="true" />
+
+              {/* Inner Double-Bezel Card */}
+              <div className="relative z-10 overflow-hidden rounded-[calc(1rem-0.125rem)] xs:rounded-[calc(1.75rem-0.375rem)] bg-black/80 inner-highlight p-3 xs:p-4 flex flex-col gap-3">
+                
+                {/* Popover Header */}
+                <div className="flex items-center justify-between pb-2.5 border-b border-emerald-500/20">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-emerald-950/80 border border-emerald-400/40 flex items-center justify-center shadow-[0_0_10px_rgba(52,211,153,0.35)] shrink-0">
+                      <Activity className="w-3 h-3 text-emerald-400 animate-pulse" />
+                    </div>
+                    <span className="text-[11px] font-mono tracking-wider font-bold uppercase radiant-headline">
+                      Cosmic Engine Telemetry
+                    </span>
+                  </div>
+
+                  <span className="px-2.5 py-0.5 text-[9px] font-mono tracking-widest uppercase radiant-badge rounded-full shrink-0">
+                    <span className="radiant-badge-text font-semibold">SequenceF • 238 UHD</span>
+                  </span>
+                </div>
+
+                {/* Telemetry Pill Widget Container */}
+                <div className="relative overflow-hidden rounded-xl bg-black/85 border border-emerald-500/25 ring-1 ring-white/5 p-2 xs:p-2.5 shadow-inner inner-highlight flex items-center justify-between gap-1.5 xs:gap-2 font-mono text-[11px]">
+                  
+                  {/* 24 FPS pulse indicator */}
+                  <div className="flex items-center gap-1.5 text-emerald-400 shrink-0 pl-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
+                    <span className="font-bold text-[11px] tracking-wide glow-emerald">24 FPS</span>
+                  </div>
+
+                  <span className="text-emerald-500/30 select-none">|</span>
+
+                  {/* Real-time Frame Counter */}
+                  <div className="shrink-0 text-slate-300 text-[11px]">
+                    <span className="text-white font-bold tracking-wider">
+                      FRAME <span ref={frameDisplayRef} className="text-emerald-300 font-mono font-extrabold">001</span>
+                    </span>
+                    <span className="text-white/40"> / 238</span>
+                  </div>
+
+                  <span className="text-emerald-500/30 select-none">|</span>
+
+                  {/* Mode Switcher Buttons */}
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => onPlaybackModeChange('hybrid')}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                        playbackMode === 'hybrid'
+                          ? 'radiant-badge text-emerald-200 border-emerald-400/60 shadow-[0_0_14px_rgba(52,211,153,0.4)] scale-105'
+                          : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+                      }`}
+                    >
+                      HYBRID
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onPlaybackModeChange('autoplay')}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                        playbackMode === 'autoplay'
+                          ? 'radiant-badge text-emerald-200 border-emerald-400/60 shadow-[0_0_14px_rgba(52,211,153,0.4)] scale-105'
+                          : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+                      }`}
+                    >
+                      AUTOPLAY
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onPlaybackModeChange('scroll')}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                        playbackMode === 'scroll'
+                          ? 'radiant-badge text-emerald-200 border-emerald-400/60 shadow-[0_0_14px_rgba(52,211,153,0.4)] scale-105'
+                          : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+                      }`}
+                    >
+                      SCROLL
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
       </div>

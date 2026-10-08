@@ -10,6 +10,7 @@ import OfflineToast from './components/OfflineToast';
 
 export default function App() {
   const [currentSection, setCurrentSection] = useState('home');
+  const [playbackMode, setPlaybackMode] = useState('hybrid'); // 'hybrid' | 'autoplay' | 'scroll'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,11 +38,19 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#030712] text-white flex flex-col font-sans selection:bg-emerald-900 selection:text-emerald-100">
-      {/* Fixed Navbar with Home, Atlas, Story, About */}
-      <Navbar activeSection={currentSection} />
+      {/* Fixed Navbar with Home, Atlas, Story, About & 3-dot Cosmic Engine menu */}
+      <Navbar
+        activeSection={currentSection}
+        playbackMode={playbackMode}
+        onPlaybackModeChange={setPlaybackMode}
+      />
 
-      {/* Global 5K Scrollytelling Canvas in Background */}
-      <CosmicBackgroundCanvas currentSection={currentSection} />
+      {/* Global 24 FPS Background Canvas */}
+      <CosmicBackgroundCanvas
+        currentSection={currentSection}
+        playbackMode={playbackMode}
+        onPlaybackModeChange={setPlaybackMode}
+      />
 
       {/* Content Layers with Glassmorphic Panels */}
       <main className="relative z-10 flex-1">

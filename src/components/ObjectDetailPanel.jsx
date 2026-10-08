@@ -175,6 +175,11 @@ export default function ObjectDetailPanel({
   const panelRef = useRef(null);
   const scrollContainerRef = useRef(null);
   const [lang, setLang] = useState('en'); // 'en' | 'bn'
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [selectedObject?.properties?.id]);
 
   // Prevent scroll bleeding: when cursor is inside this sidebar,
   // scrolling must NEVER move or scroll the underlying webpage.
@@ -364,18 +369,26 @@ export default function ObjectDetailPanel({
           </div>
 
           {/* Archival NASA Image Container with Bezel */}
-          {props.image && (
+          {props.image && !imageError && (
             <div className="relative rounded-2xl overflow-hidden border border-emerald-500/25 bg-black/60 shadow-xl group ring-1 ring-white/5">
               <img
                 src={props.image}
                 alt={activeName}
+                onError={(e) => {
+                  const fallback = `/monuments/${props.id}.jpg`;
+                  if (e.currentTarget.src !== window.location.origin + fallback && !e.currentTarget.src.endsWith(fallback)) {
+                    e.currentTarget.src = fallback;
+                  } else {
+                    setImageError(true);
+                  }
+                }}
                 className="w-full h-52 sm:h-56 object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                loading="lazy"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
               <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[10px] font-mono text-slate-300">
                 <span className="truncate max-w-[240px] bg-black/60 px-2 py-0.5 rounded-full border border-white/10">
-                  📷 {props.imageCredit}
+                  📷 {props.imageCredit || 'NASA Archival Record'}
                 </span>
                 <span className="radiant-badge px-2 py-0.5 rounded-full text-emerald-300 font-bold flex items-center space-x-1">
                   <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />

@@ -6,7 +6,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [23.47297, 0.67408]
+        "coordinates": [
+          23.47297,
+          0.67408
+        ]
       },
       "properties": {
         "id": "apollo-11-lm",
@@ -21,7 +24,7 @@
         "coordinatesFormatted": "0.6741° N, 23.4730° E (Tranquility Base)",
         "whyLeft": "The descent stage served as a stationary launch pad for the ascent stage carrying Armstrong and Aldrin back to orbit. Returning it would have required prohibitive fuel mass.",
         "scienceEnabled": "Enabled humanity's first extraterrestrial touchdown, deployment of the Laser Ranging Retroreflector (LRRR), and collection of 21.55 kg of pristine lunar rock and regolith samples.",
-        "image": "https://images-assets.nasa.gov/image/as11-40-5927/as11-40-5927~orig.jpg",
+        "image": "/monuments/apollo-11-lm.jpg",
         "imageCredit": "NASA / Neil Armstrong",
         "nasaSource": "NASA Planetary Data System (PDS) & Apollo Lunar Surface Journal",
         "datasetId": "PDS-GEO-A11-LSR-V1.0",
@@ -32,7 +35,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-23.42157, -3.01239]
+        "coordinates": [
+          -23.42157,
+          -3.01239
+        ]
       },
       "properties": {
         "id": "apollo-12-lm",
@@ -47,7 +53,7 @@
         "coordinatesFormatted": "3.0124° S, 23.4216° W (Ocean of Storms)",
         "whyLeft": "Left in place after pinpoint landing. Its passive nuclear-powered ALSEP scientific station continued transmitting seismic and solar wind data for 8 years until NASA officially powered it down in 1977.",
         "scienceEnabled": "Proved precision lunar landing navigation next to Surveyor 3. Detected deep Moonquakes and measured the Moon's exceedingly weak magnetic field.",
-        "image": "https://images-assets.nasa.gov/image/as12-48-7099/as12-48-7099~orig.jpg",
+        "image": "/monuments/apollo-12-lm.jpg",
         "imageCredit": "NASA / Charles Conrad",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-A12-ALSEP-PSE-V1.0",
@@ -58,7 +64,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [3.63386, 26.13222]
+        "coordinates": [
+          3.63386,
+          26.13222
+        ]
       },
       "properties": {
         "id": "apollo-15-lrv",
@@ -73,7 +82,7 @@
         "coordinatesFormatted": "26.1322° N, 3.6339° E (Hadley-Apennine)",
         "whyLeft": "Transporting the 210 kg electric vehicle back to orbit was impossible due to strict ascent payload weight limits. It was parked 90 meters away to broadcast the Apollo liftoff with its color TV camera.",
         "scienceEnabled": "Extended exploration traverse radius to 27.9 km, allowing astronauts to climb Mount Hadley Delta and discover the famous 'Genesis Rock' (anorthosite dated to 4.1 billion years old).",
-        "image": "https://images-assets.nasa.gov/image/as15-88-11901/as15-88-11901~orig.jpg",
+        "image": "/monuments/apollo-15-lrv.jpg",
         "imageCredit": "NASA / Dave Scott",
         "nasaSource": "NASA Solar System Treks / Lunar Reconnaissance Orbiter (LRO)",
         "datasetId": "PDS-LRO-LROC-EDR-V1.0",
@@ -84,7 +93,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [15.50019, -8.97301]
+        "coordinates": [
+          15.50019,
+          -8.97301
+        ]
       },
       "properties": {
         "id": "apollo-16-lrv",
@@ -99,7 +111,7 @@
         "coordinatesFormatted": "8.9730° S, 15.5002° E (Descartes Highlands)",
         "whyLeft": "Permanently stationed in the Descartes Highlands to record liftoff and remain as a monument to human engineering.",
         "scienceEnabled": "Covered 26.7 km of terrain, disproving the prevailing theory that the Descartes Highlands were formed by ancient volcanism, proving impact cratering mechanics instead.",
-        "image": "https://images-assets.nasa.gov/image/as16-107-17446/as16-107-17446~orig.jpg",
+        "image": "/monuments/apollo-16-lrv.jpg",
         "imageCredit": "NASA / John Young",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-A16-SAMPLE-CATALOG",
@@ -110,7 +122,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [30.77168, 20.19080]
+        "coordinates": [
+          30.77168,
+          20.1908
+        ]
       },
       "properties": {
         "id": "apollo-17-lrv",
@@ -125,7 +140,7 @@
         "coordinatesFormatted": "20.1908° N, 30.7717° E (Taurus-Littrow)",
         "whyLeft": "The final manned rover left on the Moon. Parked at 'VIP Site' 150 meters east of the Challenger descent stage so its ground-controlled RCA television camera could capture human departure.",
         "scienceEnabled": "Traversed 35.9 km across the deep Taurus-Littrow valley. Allowed geologist Harrison Schmitt to discover orange volcanic glass soil beads formed 3.64 billion years ago.",
-        "image": "https://images-assets.nasa.gov/image/as17-147-22527/as17-147-22527~orig.jpg",
+        "image": "/monuments/apollo-17-lrv.jpg",
         "imageCredit": "NASA / Gene Cernan",
         "nasaSource": "NASA Solar System Treks (Moon Trek)",
         "datasetId": "PDS-LRO-LROC-NAC-A17",
@@ -136,7 +151,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-43.339, -2.474]
+        "coordinates": [
+          -43.339,
+          -2.474
+        ]
       },
       "properties": {
         "id": "surveyor-1",
@@ -151,7 +169,7 @@
         "coordinatesFormatted": "2.474° S, 43.339° W (Ocean of Storms)",
         "whyLeft": "Pre-Apollo unmanned robotic precursor. Completed mission when extreme -150°C lunar night drained its onboard batteries.",
         "scienceEnabled": "Transmitted 11,237 television photos and proved that lunar soil had adequate bearing strength to support a manned Apollo spacecraft without sinking into quicksand.",
-        "image": "https://images-assets.nasa.gov/image/66-H-671/66-H-671~orig.jpg",
+        "image": "/monuments/surveyor-1.jpg",
         "imageCredit": "NASA / JPL",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-SURVEYOR-1-RADAR",
@@ -162,7 +180,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-23.418, -3.016]
+        "coordinates": [
+          -23.418,
+          -3.016
+        ]
       },
       "properties": {
         "id": "surveyor-3",
@@ -177,7 +198,7 @@
         "coordinatesFormatted": "3.016° S, 23.418° W (Surveyor Crater)",
         "whyLeft": "Stationary lander in Ocean of Storms. Apollo 12 astronauts visited it 2.5 years later and dismantled parts to study deep space exposure.",
         "scienceEnabled": "Dug trenches into lunar soil with a robotic scoop and proved soil mechanics. Returned parts provided the first real baseline on cosmic radiation wear on human electronics.",
-        "image": "https://images-assets.nasa.gov/image/as12-48-7133/as12-48-7133~orig.jpg",
+        "image": "/monuments/surveyor-3.jpg",
         "imageCredit": "NASA / Alan Bean",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-SURVEYOR-3-SOIL",
@@ -188,7 +209,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-48.725, -84.675]
+        "coordinates": [
+          -48.725,
+          -84.675
+        ]
       },
       "properties": {
         "id": "lcross-impact",
@@ -203,7 +227,7 @@
         "coordinatesFormatted": "84.675° S, 48.725° W (Cabeus Crater)",
         "whyLeft": "Deliberately guided into a permanently shadowed lunar crater at 9,000 km/h to excavate subterranean volatile materials into sunlight for spectroscopic analysis.",
         "scienceEnabled": "Confirmed the presence of water ice inside permanently shadowed craters at the lunar south pole, calculating roughly 5.6% water mass in the plume.",
-        "image": "https://images-assets.nasa.gov/image/PIA13615/PIA13615~orig.jpg",
+        "image": "/monuments/lcross-impact.jpg",
         "imageCredit": "NASA / Ames Research Center",
         "nasaSource": "NASA Solar System Treks (Moon Trek)",
         "datasetId": "PDS-LRO-LCROSS-SPEC-V1.0",
@@ -214,7 +238,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [42.3, -87.7]
+        "coordinates": [
+          42.3,
+          -87.7
+        ]
       },
       "properties": {
         "id": "lunar-prospector",
@@ -229,7 +256,7 @@
         "coordinatesFormatted": "87.7° S, 42.3° E (Shoemaker Crater)",
         "whyLeft": "Intentionally crashed into Shoemaker Crater at the Moon's South Pole at mission end to search for water vapor plumes.",
         "scienceEnabled": "Mapped lunar gravity, magnetic field, and created the first complete global neutron spectrometer map proving elevated hydrogen concentrations at the poles.",
-        "image": "https://images-assets.nasa.gov/image/PIA01344/PIA01344~orig.jpg",
+        "image": "/monuments/lunar-prospector.jpg",
         "imageCredit": "NASA / Ames",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-LP-GRS-NS-V1.0",

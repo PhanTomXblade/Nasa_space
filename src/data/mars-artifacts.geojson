@@ -6,7 +6,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-5.5266, -1.9462]
+        "coordinates": [
+          -5.5266,
+          -1.9462
+        ]
       },
       "properties": {
         "id": "oppy-rover",
@@ -21,7 +24,7 @@
         "coordinatesFormatted": "1.9462° S, 354.4734° E (Perseverance Valley)",
         "whyLeft": "Engineered for 90 Martian days (Sols), Oppy operated for 15 years until a colossal planet-encircling dust storm blotted out the Sun in 2018, depleting its solar power arrays.",
         "scienceEnabled": "Discovered hematite spherules nicknamed 'blueberries' and sulfate evaporite rocks, confirming that neutral-pH liquid water once flowed steadily across the Martian surface.",
-        "image": "https://images-assets.nasa.gov/image/PIA05208/PIA05208~orig.jpg",
+        "image": "/monuments/oppy-rover.jpg",
         "imageCredit": "NASA / JPL-Caltech / Cornell",
         "nasaSource": "NASA Planetary Data System (PDS) / Mars Trek",
         "datasetId": "PDS-GEO-MER2-APXS-EDR-V1.0",
@@ -32,7 +35,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [175.4726, -14.5684]
+        "coordinates": [
+          175.4726,
+          -14.5684
+        ]
       },
       "properties": {
         "id": "spirit-rover",
@@ -47,7 +53,7 @@
         "coordinatesFormatted": "14.5684° S, 175.4726° E (Troy, Gusev Crater)",
         "whyLeft": "Became trapped in soft sandy terrain named 'Troy' in 2009 with a broken front wheel. Operated as a stationary science platform until freezing Martian winter temperatures silenced communications.",
         "scienceEnabled": "When dragging its jammed right-front wheel, it inadvertently scraped open soil with 90% pure silica content, direct evidence of ancient volcanic hydrothermal hot springs suitable for microbial life.",
-        "image": "https://images-assets.nasa.gov/image/PIA05200/PIA05200~orig.jpg",
+        "image": "/monuments/spirit-rover.jpg",
         "imageCredit": "NASA / JPL-Caltech / Cornell",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-MER1-MB-EDR-V1.0",
@@ -58,7 +64,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-47.97, 22.48]
+        "coordinates": [
+          -47.97,
+          22.48
+        ]
       },
       "properties": {
         "id": "viking-1-lander",
@@ -73,7 +82,7 @@
         "coordinatesFormatted": "22.48° N, 47.97° W (Chryse Planitia)",
         "whyLeft": "Humanity's first long-duration robotic mission on Mars. Silenced in November 1982 after an erroneous software command update from ground control overwrote antenna orientation parameters.",
         "scienceEnabled": "Transmitted the first historic high-resolution photos and color panoramas from the Martian surface. Analyzed atmospheric composition, daily weather, and conducted automated biological soil tests.",
-        "image": "https://images-assets.nasa.gov/image/PIA00563/PIA00563~orig.jpg",
+        "image": "/monuments/viking-1-lander.jpg",
         "imageCredit": "NASA / JPL",
         "nasaSource": "NASA Planetary Data System (PDS) / Mars Trek",
         "datasetId": "PDS-GEO-V1-CAMERA-V1.0",
@@ -84,7 +93,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-134.01, 48.27]
+        "coordinates": [
+          -134.01,
+          48.27
+        ]
       },
       "properties": {
         "id": "viking-2-lander",
@@ -99,7 +111,7 @@
         "coordinatesFormatted": "48.27° N, 134.01° W (Utopia Planitia)",
         "whyLeft": "Stationary lander positioned in northern volcanic plains. Operated for nearly 4 Earth years until its secondary batteries failed completely.",
         "scienceEnabled": "Operated a surface seismometer, monitored northern Martian winter frost condensations, and sampled boulders and drift material across Utopia Planitia.",
-        "image": "https://images-assets.nasa.gov/image/PIA00572/PIA00572~orig.jpg",
+        "image": "/monuments/viking-2-lander.jpg",
         "imageCredit": "NASA / JPL",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-V2-XRFS-EDR-V1.0",
@@ -110,7 +122,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-33.55, 19.33]
+        "coordinates": [
+          -33.55,
+          19.33
+        ]
       },
       "properties": {
         "id": "pathfinder-sojourner",
@@ -125,7 +140,7 @@
         "coordinatesFormatted": "19.33° N, 33.55° W (Ares Vallis)",
         "whyLeft": "Pioneered the airbag landing system and deployed Sojourner, humanity's first wheeled rover on Mars. Communications ceased when the lander's master battery died.",
         "scienceEnabled": "Proved mobile roving robotics were viable on alien terrain. Analyzed volcanic rocks named 'Barnacle Bill' and 'Yogi' using Alpha Proton X-ray Spectrometer (APXS).",
-        "image": "https://images-assets.nasa.gov/image/PIA01551/PIA01551~orig.jpg",
+        "image": "/monuments/pathfinder-sojourner.jpg",
         "imageCredit": "NASA / JPL",
         "nasaSource": "NASA Solar System Treks (Mars Trek)",
         "datasetId": "PDS-GEO-MPF-APXS-EDR-V1.0",
@@ -136,7 +151,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [135.6234, 4.5024]
+        "coordinates": [
+          135.6234,
+          4.5024
+        ]
       },
       "properties": {
         "id": "insight-lander",
@@ -151,7 +169,7 @@
         "coordinatesFormatted": "4.5024° N, 135.6234° E (Elysium Planitia)",
         "whyLeft": "Left stationary on Elysium Planitia after fine Martian atmospheric dust heavily coated its circular solar panels, cutting power generation below survival levels.",
         "scienceEnabled": "Deployed SEIS (dome seismometer) directly onto Martian bedrock. Detected over 1,319 Marsquakes and meteorite impacts, mapping the depth of Mars's crust, mantle, and molten liquid core.",
-        "image": "https://images-assets.nasa.gov/image/PIA22329/PIA22329~orig.jpg",
+        "image": "/monuments/insight-lander.jpg",
         "imageCredit": "NASA / JPL-Caltech",
         "nasaSource": "NASA Planetary Data System (PDS) / Mars Trek",
         "datasetId": "PDS-GEO-INSIGHT-SEIS-EDR-V1.0",
@@ -162,7 +180,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-125.7492, 68.2188]
+        "coordinates": [
+          -125.7492,
+          68.2188
+        ]
       },
       "properties": {
         "id": "phoenix-lander",
@@ -177,7 +198,7 @@
         "coordinatesFormatted": "68.2188° N, 125.7492° W (Green Valley, Vastitas Borealis)",
         "whyLeft": "Stationary arctic lander. Completed primary science before extreme northern polar winter plunged the site into darkness and buried the lander under thick dry ice (frozen carbon dioxide).",
         "scienceEnabled": "Scraped subterranean permafrost with its robotic arm, directly uncovering pure water ice centimeters beneath the red dust and analyzing alkaline soil chemistry suitable for asparagus growth.",
-        "image": "https://images-assets.nasa.gov/image/PIA10729/PIA10729~orig.jpg",
+        "image": "/monuments/phoenix-lander.jpg",
         "imageCredit": "NASA / JPL-Caltech / University of Arizona",
         "nasaSource": "NASA Planetary Data System (PDS)",
         "datasetId": "PDS-GEO-PHX-TEGA-RDR-V1.0",
@@ -188,7 +209,10 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [77.4508, 18.4447]
+        "coordinates": [
+          77.4508,
+          18.4447
+        ]
       },
       "properties": {
         "id": "ingenuity-helicopter",
@@ -203,7 +227,7 @@
         "coordinatesFormatted": "18.4447° N, 77.4508° E (Valinor Hills, Jezero Crater)",
         "whyLeft": "Completed 72 powered flights across Mars (designed for only 5). Stationed permanently at 'Valinor Hills' after sustaining rotor blade tip damage during its final descent in January 2024.",
         "scienceEnabled": "First powered aerodynamic flight on another planet. Served as an aerial scout for Perseverance rover, proving powered rotorcraft flight in Mars's ultra-thin atmosphere (1% of Earth's density).",
-        "image": "https://images-assets.nasa.gov/image/PIA24647/PIA24647~orig.jpg",
+        "image": "/monuments/ingenuity-helicopter.jpg",
         "imageCredit": "NASA / JPL-Caltech",
         "nasaSource": "NASA Planetary Data System (PDS) / Mars Trek",
         "datasetId": "PDS-GEO-M2020-HELI-EDR-V1.0",

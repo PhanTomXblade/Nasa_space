@@ -29,7 +29,7 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: '/problem.png',
+            src: '/logo.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'

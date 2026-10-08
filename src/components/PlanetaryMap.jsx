@@ -96,7 +96,8 @@ export default function PlanetaryMap({
       minZoom: 1,
       maxZoom: 14, // allow zooming in up to level 14
       renderWorldCopies: false,
-      attributionControl: false
+      attributionControl: false,
+      cooperativeGestures: true
     });
 
     map.on('load', () => {

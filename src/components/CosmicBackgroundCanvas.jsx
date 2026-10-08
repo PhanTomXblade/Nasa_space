@@ -1,51 +1,149 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { Play, Pause, Compass, Zap } from 'lucide-react';
 
-const TOTAL_FRAMES = 50;
+const TOTAL_FRAMES = 238;
+const INITIAL_READY_FRAMES = 12; // Unblock UI once first 12 frames are buffered
+const TARGET_FPS = 24;
+const FRAME_INTERVAL = 1000 / TARGET_FPS; // ~41.667 ms per frame
 
 /**
  * CosmicBackgroundCanvas
- * Fixed fullscreen 5K canvas that smoothly transitions across:
- * - Home section: Frames 1 - 15 (Earth Departure)
- * - Story section: Frames 16 - 35 (Moon & Mars Orbit)
- * - About section: Frames 36 - 50 (Galactic Horizon / Deep Space)
  * 
- * Features physics-based lerp interpolation & sub-frame cross-fading for liquid video motion.
+ * Cinematic 24 FPS Cosmic Background across all 238 frames in /SequenceF/:
+ * - Frames 1 - 60: Earth Close-up & Ascent
+ * - Frames 61 - 125: Full Solar System Alignment (All 8 planets + Sun & Moon)
+ * - Frames 126 - 190: Milky Way Spiral Arms emergence
+ * - Frames 191 - 238: Deep Space Panoramic Galaxy
+ * 
+ * Playback Modes Supported:
+ * 1. Hybrid (Default): Autoplays at 24 FPS when idle so the background is always alive;
+ *    scrubs forward/backward when the user scrolls!
+ * 2. Scroll Scrub Only: Strictly locked to scroll position.
+ * 3. Continuous 24 FPS Autoplay: Loops seamlessly as a 24 FPS live cosmic video.
  */
-export default function CosmicBackgroundCanvas({ currentSection }) {
+export default function CosmicBackgroundCanvas({
+  currentSection,
+  playbackMode = 'hybrid',
+  onPlaybackModeChange
+}) {
   const canvasRef = useRef(null);
   const imagesRef = useRef([]);
   const animFrameIdRef = useRef(null);
+  const lastFrameTimeRef = useRef(0);
 
-  // Smooth lerp state
-  const targetFrameRef = useRef(1);
-  const renderedFrameRef = useRef(1);
-
+  // Local state for UI buffering & readiness
   const [loadedCount, setLoadedCount] = useState(0);
   const [isReady, setIsReady] = useState(false);
 
-  // Preload all 50 5K frames
+  // Animation values
+  const currentFrameRef = useRef(1);
+  const scrollTargetFrameRef = useRef(1);
+  const isUserScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
+
+  // Helper to find closest available loaded frame (Guarantees zero blank screen)
+  const getBestImage = useCallback((frameFloat) => {
+    const images = imagesRef.current;
+    if (!images || images.length === 0) return null;
+
+    const targetIndex = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(frameFloat)));
+
+    // 1. Check exact requested frame
+    const exact = images[targetIndex - 1];
+    if (exact && exact.complete && exact.naturalWidth > 0) {
+      return exact;
+    }
+
+    // 2. Search outward for closest loaded frame
+    for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+      const prevIndex = targetIndex - offset;
+      if (prevIndex >= 1) {
+        const prevImg = images[prevIndex - 1];
+        if (prevImg && prevImg.complete && prevImg.naturalWidth > 0) {
+          return prevImg;
+        }
+      }
+      const nextIndex = targetIndex + offset;
+      if (nextIndex <= TOTAL_FRAMES) {
+        const nextImg = images[nextIndex - 1];
+        if (nextImg && nextImg.complete && nextImg.naturalWidth > 0) {
+          return nextImg;
+        }
+      }
+    }
+
+    return null;
+  }, []);
+
+  // 1. Canvas Frame Drawing
+  const drawFrame = useCallback((frameFloat) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'medium';
+
+    const img = getBestImage(frameFloat);
+    if (!img) return;
+
+    const cw = canvas.width;
+    const ch = canvas.height;
+    if (cw === 0 || ch === 0) return;
+
+    // Aspect-ratio cover math in native buffer coordinates
+    const imgRatio = img.naturalWidth / img.naturalHeight;
+    const canvasRatio = cw / ch;
+
+    let drawWidth, drawHeight, offsetX, offsetY;
+
+    if (canvasRatio > imgRatio) {
+      drawWidth = cw;
+      drawHeight = cw / imgRatio;
+      offsetX = 0;
+      offsetY = (ch - drawHeight) / 2;
+    } else {
+      drawHeight = ch;
+      drawWidth = ch * imgRatio;
+      offsetX = (cw - drawWidth) / 2;
+      offsetY = 0;
+    }
+
+    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+  }, [getBestImage]);
+
+  // 2. Preload all 238 WebP frames immediately in parallel
   useEffect(() => {
     let isMounted = true;
-    const loadedImages = [];
+    const loadedImages = new Array(TOTAL_FRAMES);
     let count = 0;
 
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
+      img.decoding = 'async';
       const frameNum = String(i).padStart(3, '0');
-      img.src = `/Sequence/ezgif-frame-${frameNum}.jpg`;
+      img.src = `/SequenceF/ezgif-frame-${frameNum}.webp`;
 
       const onLoad = () => {
         if (!isMounted) return;
         count++;
         setLoadedCount(count);
-        if (count === TOTAL_FRAMES) {
+
+        if (count >= INITIAL_READY_FRAMES) {
           setIsReady(true);
+        }
+
+        // If newly loaded frame matches current position, draw it
+        const currentInt = Math.round(currentFrameRef.current);
+        if (Math.abs(currentInt - i) <= 1) {
+          drawFrame(currentFrameRef.current);
         }
       };
 
       img.onload = onLoad;
       img.onerror = onLoad;
-      loadedImages.push(img);
+      loadedImages[i - 1] = img;
     }
 
     imagesRef.current = loadedImages;
@@ -53,76 +151,22 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [drawFrame]);
 
-  // Canvas drawing with sub-frame cross-fade for seamless video transition
-  const drawFrame = useCallback((frameFloat) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const baseIndex = Math.max(1, Math.min(TOTAL_FRAMES, Math.floor(frameFloat)));
-    const nextIndex = Math.min(TOTAL_FRAMES, baseIndex + 1);
-    const fraction = frameFloat - Math.floor(frameFloat);
-
-    const img1 = imagesRef.current[baseIndex - 1];
-    const img2 = imagesRef.current[nextIndex - 1];
-
-    if (!img1 || !img1.complete || img1.naturalWidth === 0) return;
-
-    const { width, height } = canvas;
-    ctx.clearRect(0, 0, width, height);
-
-    // Aspect-ratio cover math
-    const imgRatio = img1.naturalWidth / img1.naturalHeight;
-    const canvasRatio = width / height;
-
-    let drawWidth, drawHeight, offsetX, offsetY;
-
-    if (canvasRatio > imgRatio) {
-      drawWidth = width;
-      drawHeight = width / imgRatio;
-      offsetX = 0;
-      offsetY = (height - drawHeight) / 2;
-    } else {
-      drawHeight = height;
-      drawWidth = height * imgRatio;
-      offsetX = (width - drawWidth) / 2;
-      offsetY = 0;
-    }
-
-    // Base frame
-    ctx.globalAlpha = 1;
-    ctx.drawImage(img1, offsetX, offsetY, drawWidth, drawHeight);
-
-    // Cross-fade with next frame if interpolating
-    if (fraction > 0.01 && img2 && img2.complete && img2.naturalWidth > 0 && baseIndex !== nextIndex) {
-      ctx.globalAlpha = fraction;
-      ctx.drawImage(img2, offsetX, offsetY, drawWidth, drawHeight);
-      ctx.globalAlpha = 1;
-    }
-  }, []);
-
-  // Resize canvas with devicePixelRatio
+  // 3. Canvas Buffer Sizing
   const updateCanvasDimensions = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const width = window.innerWidth;
     const height = window.innerHeight;
 
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      ctx.scale(dpr, dpr);
-    }
-
-    drawFrame(renderedFrameRef.current);
+    drawFrame(currentFrameRef.current);
   }, [drawFrame]);
 
   useEffect(() => {
@@ -131,91 +175,123 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
     return () => window.removeEventListener('resize', updateCanvasDimensions);
   }, [updateCanvasDimensions]);
 
-  // Map scroll position across Home, Atlas, Story, and About
-  // Home: Frames 1 - 12 (Earth Departure)
-  // Atlas: Frames 13 - 26 (Moon & Mars Orbital Approach)
-  // Story: Frames 27 - 40 (Planetary Surface & Artifacts)
-  // About: Frames 41 - 50 (Galactic Horizon / Space Archaeology)
+  // 4. Locked 24 FPS Animation Loop
   useEffect(() => {
-    const handleScroll = () => {
-      const homeEl = document.getElementById('home');
-      const atlasEl = document.getElementById('atlas');
-      const storyEl = document.getElementById('story');
-      const aboutEl = document.getElementById('about');
+    let isCancelled = false;
+    lastFrameTimeRef.current = performance.now();
 
-      if (!homeEl || !storyEl || !aboutEl) return;
+    const tick = (timestamp) => {
+      if (isCancelled) return;
 
-      const scrollY = window.scrollY;
-      const homeTop = homeEl.offsetTop;
-      const storyTop = storyEl.offsetTop;
-      const atlasTop = atlasEl ? atlasEl.offsetTop : storyTop * 0.4;
-      const aboutTop = aboutEl.offsetTop;
-      const totalDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const elapsed = timestamp - lastFrameTimeRef.current;
 
-      let targetFrame = 1;
+      if (elapsed >= FRAME_INTERVAL) {
+        lastFrameTimeRef.current = timestamp - (elapsed % FRAME_INTERVAL);
 
-      if (atlasEl && scrollY < atlasTop) {
-        // Within Home section: Frames 1 to 12
-        const progress = Math.max(0, Math.min(1, (scrollY - homeTop) / Math.max(1, atlasTop - homeTop)));
-        targetFrame = 1 + progress * (12 - 1);
-      } else if (scrollY < storyTop) {
-        // Within Atlas section: Frames 13 to 26
-        const progress = Math.max(0, Math.min(1, (scrollY - atlasTop) / Math.max(1, storyTop - atlasTop)));
-        targetFrame = 13 + progress * (26 - 13);
-      } else if (scrollY < aboutTop) {
-        // Within Story section: Frames 27 to 40
-        const progress = Math.max(0, Math.min(1, (scrollY - storyTop) / Math.max(1, aboutTop - storyTop)));
-        targetFrame = 27 + progress * (40 - 27);
-      } else {
-        // Within About section: Frames 41 to 50
-        const progress = Math.max(0, Math.min(1, (scrollY - aboutTop) / Math.max(1, totalDocHeight - aboutTop)));
-        targetFrame = 41 + progress * (50 - 41);
-      }
+        if (playbackMode === 'autoplay') {
+          // Continuous looping 24 FPS cosmic playback
+          currentFrameRef.current += 1;
+          if (currentFrameRef.current > TOTAL_FRAMES) {
+            currentFrameRef.current = 1;
+          }
+          drawFrame(currentFrameRef.current);
+        } else if (playbackMode === 'scroll') {
+          // Pure scroll-driven scrubbing
+          const target = scrollTargetFrameRef.current;
+          const current = currentFrameRef.current;
+          const diff = target - current;
 
-      targetFrameRef.current = Math.max(1, Math.min(TOTAL_FRAMES, targetFrame));
-    };
+          if (Math.abs(diff) > 0.05) {
+            currentFrameRef.current = current + diff * 0.25;
+            drawFrame(currentFrameRef.current);
+          }
+        } else {
+          // Hybrid mode:
+          // If actively scrolling, lerp smoothly to scroll target.
+          // If idle, slowly advance frame at 24 FPS ambient speed!
+          if (isUserScrollingRef.current) {
+            const target = scrollTargetFrameRef.current;
+            const current = currentFrameRef.current;
+            const diff = target - current;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Continuous animation loop for buttery smooth momentum lerping (respects prefers-reduced-motion)
-  useEffect(() => {
-    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const tick = () => {
-      const target = targetFrameRef.current;
-      if (prefersReducedMotion) {
-        if (Math.abs(target - renderedFrameRef.current) > 0.01) {
-          renderedFrameRef.current = target;
-          drawFrame(target);
+            currentFrameRef.current = current + diff * 0.28;
+            drawFrame(currentFrameRef.current);
+          } else {
+            // Ambient idle playback (1 frame every tick at 24fps)
+            currentFrameRef.current += 0.5; // gentle ambient pace
+            if (currentFrameRef.current > TOTAL_FRAMES) {
+              currentFrameRef.current = 1;
+            }
+            drawFrame(currentFrameRef.current);
+          }
         }
-      } else {
-        const current = renderedFrameRef.current;
-        const diff = target - current;
 
-        if (Math.abs(diff) > 0.005) {
-          // Smooth ease factor for liquid video feel
-          renderedFrameRef.current = current + diff * 0.12;
-          drawFrame(renderedFrameRef.current);
-        }
+        // Notify Navbar telemetry HUD of active frame (zero React re-render overhead)
+        window.dispatchEvent(new CustomEvent('cosmic-frame-tick', {
+          detail: { frame: Math.round(currentFrameRef.current) }
+        }));
       }
 
       animFrameIdRef.current = requestAnimationFrame(tick);
     };
 
     animFrameIdRef.current = requestAnimationFrame(tick);
+
     return () => {
+      isCancelled = true;
       if (animFrameIdRef.current) {
         cancelAnimationFrame(animFrameIdRef.current);
       }
     };
-  }, [drawFrame]);
+  }, [playbackMode, drawFrame]);
+
+  // 5. Scroll Position Tracking across the Entire Page
+  useEffect(() => {
+    const handleScroll = () => {
+      isUserScrollingRef.current = true;
+
+      // Reset idle timer after user stops scrolling
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        isUserScrollingRef.current = false;
+      }, 1200);
+
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+
+      // Smooth continuous global progress across all 238 frames
+      const globalProgress = Math.max(0, Math.min(1, scrollY / maxScroll));
+      const targetFrame = 1 + globalProgress * (TOTAL_FRAMES - 1);
+
+      scrollTargetFrameRef.current = Math.max(1, Math.min(TOTAL_FRAMES, targetFrame));
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Section Description helper
+  const getSectionPhase = (frame) => {
+    if (frame <= 60) return 'PHASE 1: EARTH DEPARTURE & ASCENT';
+    if (frame <= 125) return 'PHASE 2: SOLAR SYSTEM ALIGNMENT';
+    if (frame <= 190) return 'PHASE 3: MILKY WAY SPIRAL ARMS';
+    return 'PHASE 4: DEEP COSMOS HORIZON';
+  };
 
   return (
     <div className="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-      {/* 5K Canvas */}
+      {/* 24 FPS Canvas */}
       <canvas
         ref={canvasRef}
         className="w-full h-full object-cover transition-opacity duration-300"
@@ -229,7 +305,7 @@ export default function CosmicBackgroundCanvas({ currentSection }) {
             INITIALIZING COSMIC TELEMETRY
           </h3>
           <p className="text-sm text-cyan-400 font-mono">
-            Loading 5K frames: {loadedCount} / {TOTAL_FRAMES} ({Math.round((loadedCount / TOTAL_FRAMES) * 100)}%)
+            Buffering frames: {loadedCount} / {TOTAL_FRAMES} ({Math.round((loadedCount / TOTAL_FRAMES) * 100)}%)
           </p>
         </div>
       )}

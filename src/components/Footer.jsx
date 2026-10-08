@@ -9,10 +9,12 @@ export default function Footer() {
   return (
     <footer className="relative z-10 bg-black/90 border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-emerald-950/80 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.25)]">
-            <Compass className="w-4 h-4" strokeWidth={1.5} />
-          </div>
+        <div className="flex items-center space-x-3.5">
+          <img
+            src="/logo.png"
+            alt="Silent Sentinels"
+            className="h-9 sm:h-11 w-auto object-contain drop-shadow-[0_0_12px_rgba(52,211,153,0.3)]"
+          />
           <div>
             <div className="text-sm font-bold uppercase font-display radiant-headline">
               Silent Sentinels

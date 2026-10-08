@@ -22,15 +22,19 @@ export default function HomeSection() {
 
           {/* Content Layer */}
           <div className="relative z-10 flex flex-col items-center">
-            {/* Ultra-Wide H1 */}
-            <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-display uppercase mb-3 xs:mb-4 leading-[1.1] max-w-3xl radiant-headline">
-              Silent Sentinels Across the Cosmos
-            </h1>
+            {/* Official Mission Emblem Logo */}
+            <div className="relative mb-5 sm:mb-7 max-w-xs sm:max-w-md md:max-w-xl transition-transform duration-500 hover:scale-[1.02]">
+              <img
+                src="/logo.png"
+                alt="Silent Sentinels Across the Cosmos - NASA's Forgotten Hardware on Alien Worlds"
+                className="w-full h-auto object-contain drop-shadow-[0_0_40px_rgba(52,211,153,0.4)] select-none pointer-events-none"
+                loading="eager"
+              />
+            </div>
 
-            {/* Refined Sub-Head */}
-            <p className="text-xs xs:text-sm sm:text-lg font-mono mb-4 xs:mb-6 tracking-wide max-w-xl radiant-subhead font-semibold">
-              NASA's Forgotten Hardware on Alien Worlds
-            </p>
+            <h1 className="sr-only">
+              Silent Sentinels Across the Cosmos - NASA's Forgotten Hardware on Alien Worlds
+            </h1>
 
             {/* Narrative Hook */}
             <p className="text-xs xs:text-sm sm:text-base text-slate-200 font-sans max-w-2xl leading-relaxed mb-6 xs:mb-8">
