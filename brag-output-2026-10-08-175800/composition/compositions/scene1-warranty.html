@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Scene 1: The Warranty Hook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@600;700&family=Space+Grotesk:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #030712;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 50%, #061826 0%, #030712 80%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 120px;
+      }
+
+      .starfield {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          radial-gradient(1.5px 1.5px at 150px 220px, #ffffff 100%, transparent),
+          radial-gradient(1px 1px at 450px 180px, #34d399 100%, transparent),
+          radial-gradient(2px 2px at 850px 720px, #ffffff 100%, transparent),
+          radial-gradient(1.5px 1.5px at 1250px 300px, #22d3ee 100%, transparent),
+          radial-gradient(1px 1px at 1650px 200px, #ffffff 100%, transparent),
+          radial-gradient(2px 2px at 1720px 850px, #34d399 100%, transparent);
+        opacity: 0.85;
+      }
+
+      .hud-frame {
+        position: absolute;
+        inset: 48px;
+        border: 1px solid rgba(52, 211, 153, 0.2);
+        pointer-events: none;
+      }
+      .hud-corner {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-color: #34d399;
+      }
+      .tl { top: 32px; left: 32px; border-top: 2px solid #34d399; border-left: 2px solid #34d399; }
+      .tr { top: 32px; right: 32px; border-top: 2px solid #34d399; border-right: 2px solid #34d399; }
+      .bl { bottom: 32px; left: 32px; border-bottom: 2px solid #34d399; border-left: 2px solid #34d399; }
+      .br { bottom: 32px; right: 32px; border-bottom: 2px solid #34d399; border-right: 2px solid #34d399; }
+
+      .hud-topbar {
+        position: absolute;
+        top: 64px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #34d399;
+      }
+      .hud-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 18px;
+        border-radius: 9999px;
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        color: #a7f3d0;
+      }
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 10px #34d399;
+      }
+
+      .hook-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #22d3ee;
+        margin-bottom: 24px;
+      }
+
+      .hook-head1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 72px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        text-transform: uppercase;
+        color: #94a3b8;
+        max-width: 1440px;
+        margin-bottom: 22px;
+      }
+
+      .hook-head2 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 98px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        line-height: 1.05;
+        text-transform: uppercase;
+        color: #ffffff;
+        text-shadow: 0 0 45px rgba(52, 211, 153, 0.65);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="scene1"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="starfield"></div>
+      <div class="hud-frame">
+        <div class="hud-corner tl"></div>
+        <div class="hud-corner tr"></div>
+        <div class="hud-corner bl"></div>
+        <div class="hud-corner br"></div>
+      </div>
+
+      <div class="hud-topbar" id="hud-bar-1">
+        <div class="hud-badge">
+          <span class="pulse-dot"></span>
+          <span>Hardware Reliability Audit</span>
+        </div>
+        <div>SPECIFICATION: OFF-WORLD ASSETS</div>
+        <div>INDEX: JPL-NASA-SURVIVABILITY</div>
+      </div>
+
+      <div class="hook-tag" id="h-tag">HARDWARE ENDURANCE BENCHMARK</div>
+      <div class="hook-head1" id="h-head1">
+        Consumer hardware dies in 2 years.
+      </div>
+      <div class="hook-head2" id="h-head2">
+        NASA gave this robot a 90-day warranty.
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#hud-bar-1", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.fromTo("#h-tag", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.2);
+      tl.fromTo("#h-head1", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.7, ease: "power2.out" }, 0.5);
+      tl.fromTo("#h-head2", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: "back.out(1.5)" }, 1.4);
+
+      // Outro hold and transition
+      tl.to("#root", { opacity: 0, scale: 1.05, filter: "blur(10px)", duration: 0.45, ease: "power2.in" }, 3.25);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["scene1"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Scene 2: The Monument Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #030712;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 50%, #061826 0%, #030712 80%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .starfield {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          radial-gradient(1.5px 1.5px at 150px 220px, #ffffff 100%, transparent),
+          radial-gradient(1px 1px at 450px 180px, #34d399 100%, transparent),
+          radial-gradient(2px 2px at 850px 720px, #ffffff 100%, transparent),
+          radial-gradient(1.5px 1.5px at 1250px 300px, #22d3ee 100%, transparent),
+          radial-gradient(1px 1px at 1650px 200px, #ffffff 100%, transparent),
+          radial-gradient(2px 2px at 1720px 850px, #34d399 100%, transparent);
+        opacity: 0.85;
+      }
+
+      .aurora-glow {
+        position: absolute;
+        width: 1300px;
+        height: 850px;
+        background: radial-gradient(ellipse, rgba(52, 211, 153, 0.25) 0%, rgba(16, 185, 129, 0.1) 45%, transparent 70%);
+        filter: blur(80px);
+        pointer-events: none;
+      }
+
+      .hud-topbar {
+        position: absolute;
+        top: 64px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #34d399;
+      }
+      .hud-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 18px;
+        border-radius: 9999px;
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        color: #a7f3d0;
+      }
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 10px #34d399;
+      }
+
+      .emblem-box {
+        position: relative;
+        width: 460px;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 0 45px rgba(52, 211, 153, 0.45));
+      }
+
+      .emblem-img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .archive-title {
+        position: relative;
+        z-index: 10;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 52px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #ffffff;
+        margin-bottom: 14px;
+        text-shadow: 0 0 35px rgba(52, 211, 153, 0.4);
+      }
+
+      .archive-sub {
+        position: relative;
+        z-index: 10;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 24px;
+        font-weight: 500;
+        color: #cbd5e1;
+        max-width: 1100px;
+        line-height: 1.4;
+        margin-bottom: 44px;
+      }
+
+      .chapter-row {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+      }
+
+      .chapter-pill {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 32px;
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      }
+
+      .chapter-icon {
+        font-size: 24px;
+      }
+
+      .chapter-text {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="scene2"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="starfield"></div>
+      <div class="aurora-glow"></div>
+
+      <div class="hud-topbar" id="hud-bar-2">
+        <div class="hud-badge">
+          <span class="pulse-dot"></span>
+          <span>NASA Space Apps Challenge 2026</span>
+        </div>
+        <div>SOLAR SYSTEM TREKS ARCHIVE</div>
+        <div>STATUS: CATALOG ACTIVE</div>
+      </div>
+
+      <div class="emblem-box" id="emblem">
+        <img src="assets/logo.png" alt="Silent Sentinels" class="emblem-img" />
+      </div>
+
+      <div class="archive-title" id="title">SILENT SENTINELS</div>
+      <div class="archive-sub" id="sub" data-layout-allow-occlusion>
+        Abandoned on the Moon and Mars. But never forgotten.
+      </div>
+
+      <div class="chapter-row">
+        <div class="chapter-pill" id="pill-1">
+          <span class="chapter-icon">🌕</span>
+          <span class="chapter-text">Lunar Monuments</span>
+        </div>
+        <div class="chapter-pill" id="pill-2">
+          <span class="chapter-icon">🔴</span>
+          <span class="chapter-text">Martian Pioneers</span>
+        </div>
+        <div class="chapter-pill" id="pill-3">
+          <span class="chapter-icon">🌌</span>
+          <span class="chapter-text">Deep Space Voyagers</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#hud-bar-2", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0);
+      tl.fromTo("#emblem", { opacity: 0, scale: 0.78, y: -30 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0.1);
+      tl.fromTo("#title", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" }, 0.6);
+      tl.fromTo("#sub", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 1.0);
+
+      // Sequential chapter pills snap along beat grid
+      tl.fromTo("#pill-1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" }, 1.6);
+      tl.fromTo("#pill-2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" }, 2.2);
+      tl.fromTo("#pill-3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" }, 2.8);
+
+      // Beat-locked hold before exit
+      tl.to("#root", { opacity: 0, y: -30, filter: "blur(10px)", duration: 0.45, ease: "power2.in" }, 4.75);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["scene2"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

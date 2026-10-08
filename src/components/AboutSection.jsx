@@ -1,5 +1,6 @@
-import React from 'react';
-import { ShieldCheck, Telescope, Award, Atom, HelpCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShieldCheck, Telescope, Award, Atom, HelpCircle, Database, ChevronDown } from 'lucide-react';
+import NasaSourcesSection from './NasaSourcesSection';
 
 const PRINCIPLES = [
   {
@@ -44,6 +45,7 @@ const FAQS = [
 ];
 
 export default function AboutSection() {
+  const [isSourcesOpen, setIsSourcesOpen] = useState(false);
   return (
     <section
       id="about"
@@ -142,12 +144,12 @@ export default function AboutSection() {
         </div>
 
         {/* Official NASA Challenge Credential Bar */}
-        <div className="relative rounded-[2rem] p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-2xl shadow-xl">
-          <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] p-8 bg-black/80 inner-highlight">
+        <div className="relative rounded-2xl sm:rounded-[2rem] p-1 sm:p-1.5 ring-1 ring-emerald-500/25 bg-emerald-950/20 backdrop-blur-2xl shadow-xl">
+          <div className="relative overflow-hidden rounded-[calc(1rem-0.125rem)] sm:rounded-[calc(2rem-0.375rem)] p-4 xs:p-6 sm:p-8 bg-black/80 inner-highlight">
             {/* Flowing Cosmic Nebula Mesh Background */}
             <div className="aurora-mesh-bg" aria-hidden="true" />
 
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shrink-0 shadow-[0_0_15px_rgba(52,211,153,0.25)]">
                   <Award className="w-6 h-6" strokeWidth={1.5} />
@@ -165,11 +167,40 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2.5 text-xs font-mono radiant-badge px-4 py-2 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-                <span className="radiant-badge-text font-semibold">Dedicated to School-Age Space Enthusiasts</span>
+              {/* Action Area: Badge + Sources Button */}
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center space-x-2.5 text-xs font-mono radiant-badge px-4 py-2 rounded-full">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+                  <span className="radiant-badge-text font-semibold">Dedicated to School-Age Space Enthusiasts</span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsSourcesOpen((prev) => !prev)}
+                  aria-expanded={isSourcesOpen}
+                  aria-controls="nasa-sources-dropdown-content"
+                  className="group inline-flex items-center space-x-2 px-3.5 py-2 rounded-full bg-emerald-950/80 hover:bg-emerald-900/90 border border-emerald-400/40 hover:border-emerald-400 text-xs font-mono text-emerald-300 hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(52,211,153,0.15)] hover:shadow-[0_0_20px_rgba(52,211,153,0.35)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                >
+                  <Database className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold tracking-wider uppercase">Sources</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-emerald-400 transition-transform duration-300 ${
+                      isSourcesOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
               </div>
             </div>
+
+            {/* Expandable Sources Dropdown Content */}
+            {isSourcesOpen && (
+              <div
+                id="nasa-sources-dropdown-content"
+                className="relative z-10 mt-6 pt-6 sm:mt-8 sm:pt-8 border-t border-emerald-500/20 transition-all duration-300 animate-fadeIn"
+              >
+                <NasaSourcesSection onClose={() => setIsSourcesOpen(false)} />
+              </div>
+            )}
           </div>
         </div>
       </div>

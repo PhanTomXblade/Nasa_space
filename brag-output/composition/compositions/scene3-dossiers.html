@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Scene 3: Hardware Dossiers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #030712;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 50%, #061826 0%, #030712 80%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 80px;
+      }
+
+      .starfield {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          radial-gradient(1.5px 1.5px at 150px 220px, #ffffff 100%, transparent),
+          radial-gradient(1px 1px at 450px 180px, #34d399 100%, transparent),
+          radial-gradient(2px 2px at 850px 720px, #ffffff 100%, transparent),
+          radial-gradient(1.5px 1.5px at 1250px 300px, #22d3ee 100%, transparent),
+          radial-gradient(1px 1px at 1650px 200px, #ffffff 100%, transparent),
+          radial-gradient(2px 2px at 1720px 850px, #34d399 100%, transparent);
+        opacity: 0.85;
+      }
+
+      .hud-topbar {
+        position: absolute;
+        top: 60px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #34d399;
+      }
+      .hud-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 18px;
+        border-radius: 9999px;
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        color: #a7f3d0;
+      }
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 10px #34d399;
+      }
+
+      .header-block {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 36px;
+      }
+
+      .sup-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 15px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #34d399;
+        margin-bottom: 8px;
+      }
+
+      .main-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 46px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        color: #ffffff;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        width: 100%;
+        max-width: 1700px;
+      }
+
+      .dossier-card {
+        background: rgba(10, 16, 29, 0.88);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-image-box {
+        position: relative;
+        width: 100%;
+        height: 255px;
+        overflow: hidden;
+        background: #020617;
+      }
+
+      .card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        background: rgba(3, 7, 18, 0.88);
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        border-radius: 9999px;
+        padding: 6px 14px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        color: #34d399;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .card-body {
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .card-name {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+      }
+
+      .card-stat {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 15px;
+        font-weight: 700;
+        color: #22d3ee;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .card-desc {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 15px;
+        color: #94a3b8;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="scene3"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="starfield"></div>
+
+      <div class="hud-topbar" id="hud-bar-3">
+        <div class="hud-badge">
+          <span class="pulse-dot"></span>
+          <span>Field Hardware Telemetry</span>
+        </div>
+        <div>DATA SOURCE: NASA PLANETARY DATA SYSTEM</div>
+        <div>VERIFIED HISTORICAL RECORDS</div>
+      </div>
+
+      <div class="header-block" id="h-block">
+        <div class="sup-title">NASA Historical Telemetry</div>
+        <div class="main-title">Humanity's Enduring Pioneers</div>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Card 1: Opportunity -->
+        <div class="dossier-card" id="card-1">
+          <div class="card-image-box">
+            <img
+              src="assets/monuments/oppy-rover.jpg"
+              alt="Opportunity Rover"
+              class="card-img"
+            />
+            <span class="card-badge">Mars Explorer</span>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Opportunity Rover</div>
+            <div class="card-stat">45.16 KM Marathon • 5,111 Sols</div>
+            <div class="card-desc">
+              Engineered for 90 days. Lived 15 years. Confirmed that neutral liquid water once flowed on Mars.
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Apollo 15 LRV -->
+        <div class="dossier-card" id="card-2">
+          <div class="card-image-box">
+            <img
+              src="assets/monuments/apollo-15-lrv.jpg"
+              alt="Apollo 15 Lunar Roving Vehicle"
+              class="card-img"
+            />
+            <span class="card-badge">Moon Rover</span>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Apollo 15 LRV</div>
+            <div class="card-stat">90.2 KM Traverse • Piano-Wire Tires</div>
+            <div class="card-desc">
+              Woven steel tires that never freeze. Parked facing Earth, waiting untouched for humanity's return.
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Surveyor 3 -->
+        <div class="dossier-card" id="card-3">
+          <div class="card-image-box">
+            <img
+              src="assets/monuments/surveyor-3.jpg"
+              alt="Surveyor 3 Lunar Lander"
+              class="card-img"
+            />
+            <span class="card-badge">Human Handshake</span>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Surveyor 3</div>
+            <div class="card-stat">Ocean of Storms • Apollo 12</div>
+            <div class="card-desc">
+              The only robot visited and touched by astronauts on another world. Microbes survived 31 months in vacuum.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#hud-bar-3", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0);
+      tl.fromTo("#h-block", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+
+      // Card reveals synced along beat grid points
+      tl.fromTo("#card-1", { opacity: 0, y: 50, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" }, 0.3);
+      tl.fromTo("#card-2", { opacity: 0, y: 50, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" }, 2.5);
+      tl.fromTo("#card-3", { opacity: 0, y: 50, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" }, 4.5);
+
+      // Transition out
+      tl.to("#root", { opacity: 0, scale: 0.96, filter: "blur(8px)", duration: 0.5, ease: "power2.in" }, 6.0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["scene3"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

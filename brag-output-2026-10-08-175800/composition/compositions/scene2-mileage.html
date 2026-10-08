@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Scene 2: The Mileage Shock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #030712;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 50%, #061826 0%, #030712 80%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .starfield {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          radial-gradient(1.5px 1.5px at 150px 220px, #ffffff 100%, transparent),
+          radial-gradient(1px 1px at 450px 180px, #34d399 100%, transparent),
+          radial-gradient(2px 2px at 850px 720px, #ffffff 100%, transparent),
+          radial-gradient(1.5px 1.5px at 1250px 300px, #22d3ee 100%, transparent),
+          radial-gradient(1px 1px at 1650px 200px, #ffffff 100%, transparent),
+          radial-gradient(2px 2px at 1720px 850px, #34d399 100%, transparent);
+        opacity: 0.85;
+      }
+
+      .aurora-glow {
+        position: absolute;
+        width: 1300px;
+        height: 850px;
+        background: radial-gradient(ellipse, rgba(52, 211, 153, 0.25) 0%, rgba(16, 185, 129, 0.1) 45%, transparent 70%);
+        filter: blur(80px);
+        pointer-events: none;
+      }
+
+      .hud-topbar {
+        position: absolute;
+        top: 64px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #34d399;
+      }
+      .hud-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 18px;
+        border-radius: 9999px;
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        color: #a7f3d0;
+      }
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 10px #34d399;
+      }
+
+      .emblem-box {
+        position: relative;
+        width: 440px;
+        margin-bottom: 18px;
+        filter: drop-shadow(0 0 45px rgba(52, 211, 153, 0.45));
+      }
+
+      .emblem-img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .mileage-title {
+        position: relative;
+        z-index: 10;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 56px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        color: #ffffff;
+        margin-bottom: 8px;
+        text-shadow: 0 0 35px rgba(52, 211, 153, 0.4);
+      }
+
+      .mileage-stat {
+        position: relative;
+        z-index: 10;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #22d3ee;
+        margin-bottom: 12px;
+      }
+
+      .mileage-sub {
+        position: relative;
+        z-index: 10;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        color: #cbd5e1;
+        max-width: 1100px;
+        line-height: 1.4;
+        margin-bottom: 40px;
+      }
+
+      .stats-row {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+      }
+
+      .stat-pill {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 28px;
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      }
+
+      .stat-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #34d399;
+      }
+
+      .stat-label {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #e2e8f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="scene2"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="starfield"></div>
+      <div class="aurora-glow"></div>
+
+      <div class="hud-topbar" id="hud-bar-2">
+        <div class="hud-badge">
+          <span class="pulse-dot"></span>
+          <span>Actual Field Performance</span>
+        </div>
+        <div>ODOMETER AUDIT: PERSEVERANCE VALLEY</div>
+        <div>EXCEEDED RATING BY 6,000%</div>
+      </div>
+
+      <div class="emblem-box" id="emblem">
+        <img src="assets/logo.png" alt="Silent Sentinels" class="emblem-img" />
+      </div>
+
+      <div class="mileage-title" id="title">IT DROVE FOR 15 YEARS.</div>
+      <div class="mileage-stat" id="stat-callout">45.16 KM MARATHON ACROSS MARS</div>
+      <div class="mileage-sub" id="sub" data-layout-allow-occlusion>
+        The greatest hardware understatement in human history.
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-pill" id="pill-1">
+          <span class="stat-val">5,111</span>
+          <span class="stat-label">Sols Active</span>
+        </div>
+        <div class="stat-pill" id="pill-2">
+          <span class="stat-val">217,000+</span>
+          <span class="stat-label">Raw Photos</span>
+        </div>
+        <div class="stat-pill" id="pill-3">
+          <span class="stat-val">0</span>
+          <span class="stat-label">Service Calls</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#hud-bar-2", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 0);
+      tl.fromTo("#emblem", { opacity: 0, scale: 0.78, y: -25 }, { opacity: 1, scale: 1, y: 0, duration: 0.75, ease: "power3.out" }, 0.1);
+      tl.fromTo("#title", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.6);
+      tl.fromTo("#stat-callout", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 1.0);
+      tl.fromTo("#sub", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 1.4);
+
+      // Sequential stat pills
+      tl.fromTo("#pill-1", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, 1.9);
+      tl.fromTo("#pill-2", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, 2.4);
+      tl.fromTo("#pill-3", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, 2.9);
+
+      // Transition out
+      tl.to("#root", { opacity: 0, y: -30, filter: "blur(10px)", duration: 0.45, ease: "power2.in" }, 4.35);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["scene2"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
