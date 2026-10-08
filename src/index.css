@@ -150,3 +150,11 @@ canvas {
     animation: none !important;
   }
 }
+
+/* Hide fixed navbar when full-screen comic lightbox is active */
+body.comic-lightbox-open header {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
