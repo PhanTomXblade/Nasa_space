@@ -25,7 +25,6 @@ export default function Footer() {
             <div className="relative z-10 flex flex-col sm:flex-row items-center gap-5 sm:gap-7 w-full justify-center md:justify-start">
               <div className="relative shrink-0 group">
                 <picture>
-                  <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
                   <source srcSet="/logo.webp" type="image/webp" />
                   <img
                     src="/logo.png"
@@ -79,7 +78,6 @@ export default function Footer() {
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
                 <picture>
-                  <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
                   <source srcSet="/logo.webp" type="image/webp" />
                   <img
                     src="/logo.png"

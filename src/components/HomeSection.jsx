@@ -25,7 +25,6 @@ export default function HomeSection() {
             {/* Official Mission Emblem Logo */}
             <div className="relative mb-5 sm:mb-7 max-w-xs sm:max-w-md md:max-w-xl transition-transform duration-500 hover:scale-[1.02]">
               <picture>
-                <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
                 <source srcSet="/logo.webp" type="image/webp" />
                 <img
                   src="/logo.png"

@@ -89,7 +89,6 @@ export default function Navbar({
         >
           <div className="relative flex items-center justify-center h-8 px-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/40 group-hover:border-emerald-300 transition-all duration-300 shadow-[0_0_12px_rgba(52,211,153,0.3)] shrink-0">
             <picture>
-              <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
               <source srcSet="/logo.webp" type="image/webp" />
               <img
                 src="/logo.png"
