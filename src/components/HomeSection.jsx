@@ -24,12 +24,17 @@ export default function HomeSection() {
           <div className="relative z-10 flex flex-col items-center">
             {/* Official Mission Emblem Logo */}
             <div className="relative mb-5 sm:mb-7 max-w-xs sm:max-w-md md:max-w-xl transition-transform duration-500 hover:scale-[1.02]">
-              <img
-                src="/logo.png"
-                alt="Silent Sentinels Across the Cosmos - NASA's Forgotten Hardware on Alien Worlds"
-                className="w-full h-auto object-contain drop-shadow-[0_0_40px_rgba(52,211,153,0.4)] select-none pointer-events-none"
-                loading="eager"
-              />
+              <picture>
+                <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img
+                  src="/logo.png"
+                  alt="Silent Sentinels Across the Cosmos - NASA's Forgotten Hardware on Alien Worlds"
+                  className="w-full h-auto object-contain drop-shadow-[0_0_40px_rgba(52,211,153,0.4)] select-none pointer-events-none"
+                  loading="eager"
+                  decoding="async"
+                />
+              </picture>
             </div>
 
             <h1 className="sr-only">

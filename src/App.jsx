@@ -12,28 +12,44 @@ export default function App() {
   const [currentSection, setCurrentSection] = useState('home');
   const [playbackMode, setPlaybackMode] = useState('hybrid'); // 'hybrid' | 'autoplay' | 'scroll'
 
+  // IntersectionObserver-based section detection (off main thread, zero scroll jank)
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight * 0.4;
+    const sectionIds = ['about', 'story', 'atlas', 'home'];
+    const observers = [];
 
-      const aboutEl = document.getElementById('about');
-      const storyEl = document.getElementById('story');
-      const atlasEl = document.getElementById('atlas');
-
-      if (aboutEl && scrollPosition >= aboutEl.offsetTop) {
-        setCurrentSection('about');
-      } else if (storyEl && scrollPosition >= storyEl.offsetTop) {
-        setCurrentSection('story');
-      } else if (atlasEl && scrollPosition >= atlasEl.offsetTop) {
-        setCurrentSection('atlas');
-      } else {
-        setCurrentSection('home');
+    // Use IntersectionObserver instead of raw scroll math.
+    // The browser's compositor thread handles visibility checks natively,
+    // freeing the JS main thread on mobile during touch scrolling.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the most-visible section that is intersecting
+        let bestEntry = null;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+              bestEntry = entry;
+            }
+          }
+        }
+        if (bestEntry) {
+          setCurrentSection(bestEntry.target.id);
+        }
+      },
+      {
+        threshold: [0.1, 0.3, 0.5],
+        rootMargin: '-10% 0px -10% 0px'
       }
-    };
+    );
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        observer.observe(el);
+        observers.push(el);
+      }
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   return (

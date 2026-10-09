@@ -170,10 +170,15 @@ export default function PlanetaryMap({
         ? 'rgba(56, 189, 248, 0.8)' // cyan
         : 'rgba(251, 191, 36, 0.8)'; // amber
 
+      // Only animate radar pulse for the selected marker or on hover to preserve mobile GPU framerate
+      const pulseHtml = isSelected
+        ? `<div class="absolute w-10 h-10 rounded-full animate-ping opacity-75" style="background-color: ${pulseColor};"></div>`
+        : `<div class="absolute w-8 h-8 rounded-full opacity-25 group-hover:animate-ping transition-opacity" style="background-color: ${pulseColor};"></div>`;
+
       el.innerHTML = `
         <div class="relative flex items-center justify-center">
-          <!-- Outer Radar Pulse Animation -->
-          <div class="absolute w-8 h-8 rounded-full animate-ping opacity-60" style="background-color: ${pulseColor};"></div>
+          <!-- Radar Pulse (Active on selected or hover only) -->
+          ${pulseHtml}
           
           <!-- Inner Core Marker Badge -->
           <div class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border-2 transition-transform duration-300 ${

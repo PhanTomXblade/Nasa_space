@@ -1112,6 +1112,22 @@ const COMIC_COLLECTIONS = {
   insight: INSIGHT_COMIC_PAGES,
 };
 
+/**
+ * Responsive image path helpers for Option B:
+ * - Desktop: Full resolution WebP (e.g. /story/surveyor/page1.webp)
+ * - Mobile: 800px-wide WebP (e.g. /story/surveyor/page1-mobile.webp)
+ * - Fallback: Original PNG/JPG source
+ */
+function getWebPPath(originalSrc) {
+  // /story/surveyor/page1.jpg → /story/surveyor/page1.webp
+  return originalSrc.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+}
+
+function getMobileWebPPath(originalSrc) {
+  // /story/surveyor/page1.jpg → /story/surveyor/page1-mobile.webp
+  return originalSrc.replace(/\.(png|jpg|jpeg)$/i, '-mobile.webp');
+}
+
 export default function StorySection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentChapter, setCurrentChapter] = useState(0);
@@ -1658,14 +1674,29 @@ export default function StorySection() {
 
                         {/* Central Comic Display Stage */}
                         <div className="relative group rounded-2xl overflow-hidden bg-slate-950/80 border border-emerald-500/25 shadow-2xl flex items-center justify-center p-1.5 sm:p-2.5">
-                          <img
-                            src={activeComicPages[comicPage].image}
-                            alt={activeComicPages[comicPage].title}
-                            className="h-auto max-h-[460px] sm:max-h-[500px] md:max-h-[520px] lg:max-h-[540px] max-w-full mx-auto object-contain rounded-xl select-none transition-transform duration-300 group-hover:scale-[1.005] cursor-pointer shadow-2xl"
-                            style={{ maxHeight: 'min(530px, 58vh)' }}
-                            onClick={() => setIsLightboxOpen(true)}
-                            loading="eager"
-                          />
+                          <picture>
+                            {/* Mobile: 800px-wide WebP for fast loading on phones */}
+                            <source
+                              media="(max-width: 768px)"
+                              srcSet={getMobileWebPPath(activeComicPages[comicPage].image)}
+                              type="image/webp"
+                            />
+                            {/* Desktop: Full resolution WebP */}
+                            <source
+                              srcSet={getWebPPath(activeComicPages[comicPage].image)}
+                              type="image/webp"
+                            />
+                            {/* Fallback: Original PNG/JPG */}
+                            <img
+                              src={activeComicPages[comicPage].image}
+                              alt={activeComicPages[comicPage].title}
+                              className="h-auto max-h-[460px] sm:max-h-[500px] md:max-h-[520px] lg:max-h-[540px] max-w-full mx-auto object-contain rounded-xl select-none transition-transform duration-300 group-hover:scale-[1.005] cursor-pointer shadow-2xl"
+                              style={{ maxHeight: 'min(530px, 58vh)' }}
+                              onClick={() => setIsLightboxOpen(true)}
+                              loading="eager"
+                              decoding="async"
+                            />
+                          </picture>
 
                           {/* Hover Zoom Prompt */}
                           <button
@@ -2210,11 +2241,19 @@ export default function StorySection() {
               className="relative flex-1 w-full max-w-5xl flex items-center justify-center my-2 overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={activeComicPages[comicPage].image}
-                alt={activeComicPages[comicPage].title}
-                className="max-h-[70vh] sm:max-h-[72vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl ring-1 ring-emerald-500/30"
-              />
+              <picture>
+                {/* Lightbox always serves full-resolution WebP (user wants to see detail) */}
+                <source
+                  srcSet={getWebPPath(activeComicPages[comicPage].image)}
+                  type="image/webp"
+                />
+                <img
+                  src={activeComicPages[comicPage].image}
+                  alt={activeComicPages[comicPage].title}
+                  className="max-h-[70vh] sm:max-h-[72vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl ring-1 ring-emerald-500/30"
+                  decoding="async"
+                />
+              </picture>
 
               {comicPage > 0 && (
                 <button

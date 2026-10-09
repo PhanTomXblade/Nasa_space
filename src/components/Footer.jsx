@@ -24,12 +24,16 @@ export default function Footer() {
             {/* Full Logo Showcase */}
             <div className="relative z-10 flex flex-col sm:flex-row items-center gap-5 sm:gap-7 w-full justify-center md:justify-start">
               <div className="relative shrink-0 group">
-                <div className="absolute -inset-2 rounded-2xl bg-emerald-500/20 blur-xl opacity-75 group-hover:opacity-100 transition-opacity" />
-                <img
-                  src="/logo.png"
-                  alt="Silent Sentinels Full Logo"
-                  className="relative h-20 sm:h-28 md:h-32 w-auto object-contain drop-shadow-[0_0_25px_rgba(52,211,153,0.45)]"
-                />
+                <picture>
+                  <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
+                  <source srcSet="/logo.webp" type="image/webp" />
+                  <img
+                    src="/logo.png"
+                    alt="Silent Sentinels Full Logo"
+                    className="relative h-20 sm:h-28 md:h-32 w-auto object-contain drop-shadow-[0_0_25px_rgba(52,211,153,0.45)]"
+                    decoding="async"
+                  />
+                </picture>
               </div>
 
               <div className="text-center sm:text-left">
@@ -74,11 +78,16 @@ export default function Footer() {
             {/* Brand & Mission Column */}
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <img
-                  src="/logo.png"
-                  alt="Silent Sentinels"
-                  className="h-8 sm:h-9 w-auto object-contain drop-shadow-[0_0_12px_rgba(52,211,153,0.3)]"
-                />
+                <picture>
+                  <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
+                  <source srcSet="/logo.webp" type="image/webp" />
+                  <img
+                    src="/logo.png"
+                    alt="Silent Sentinels"
+                    className="h-8 sm:h-9 w-auto object-contain drop-shadow-[0_0_12px_rgba(52,211,153,0.3)]"
+                    decoding="async"
+                  />
+                </picture>
                 <span className="text-lg sm:text-xl font-bold font-display uppercase radiant-headline">
                   Silent Sentinels
                 </span>

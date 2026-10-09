@@ -151,6 +151,35 @@ canvas {
   }
 }
 
+/* Mobile GPU Performance Enhancements (Preserves Desktop Visuals 100%) */
+@media (max-width: 768px) {
+  .aurora-mesh-bg {
+    animation: none !important;
+    filter: blur(16px) !important;
+    opacity: 0.45 !important;
+    will-change: auto !important;
+  }
+
+  /* Cap expensive multi-pass backdrop-filters on mobile screens */
+  .backdrop-blur-3xl {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+}
+
+/* Offscreen section paint/layout containment to prevent mobile thread stalling */
+#story,
+#about {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}
+
 /* Hide fixed navbar when full-screen comic lightbox is active */
 body.comic-lightbox-open header {
   display: none !important;

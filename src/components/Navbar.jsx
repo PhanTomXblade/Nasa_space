@@ -88,11 +88,16 @@ export default function Navbar({
           aria-label="Silent Sentinels - Home"
         >
           <div className="relative flex items-center justify-center h-8 px-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/40 group-hover:border-emerald-300 transition-all duration-300 shadow-[0_0_12px_rgba(52,211,153,0.3)] shrink-0">
-            <img
-              src="/logo.png"
-              alt="Silent Sentinels"
-              className="h-6 sm:h-7 w-auto object-contain drop-shadow-[0_0_6px_rgba(52,211,153,0.4)] group-hover:scale-105 transition-transform duration-300"
-            />
+            <picture>
+              <source media="(max-width: 768px)" srcSet="/logo-mobile.webp" type="image/webp" />
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img
+                src="/logo.png"
+                alt="Silent Sentinels"
+                className="h-6 sm:h-7 w-auto object-contain drop-shadow-[0_0_6px_rgba(52,211,153,0.4)] group-hover:scale-105 transition-transform duration-300"
+                decoding="async"
+              />
+            </picture>
           </div>
 
           <span className="hidden md:inline-block text-xs sm:text-sm font-bold tracking-wider uppercase font-display radiant-headline whitespace-nowrap">

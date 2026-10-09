@@ -6,6 +6,9 @@ const INITIAL_READY_FRAMES = 12; // Unblock UI once first 12 frames are buffered
 const TARGET_FPS = 24;
 const FRAME_INTERVAL = 1000 / TARGET_FPS; // ~41.667 ms per frame
 
+// Detect mobile once at module level for consistent branching
+const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 768;
+
 /**
  * CosmicBackgroundCanvas
  * 
@@ -20,6 +23,11 @@ const FRAME_INTERVAL = 1000 / TARGET_FPS; // ~41.667 ms per frame
  *    scrubs forward/backward when the user scrolls!
  * 2. Scroll Scrub Only: Strictly locked to scroll position.
  * 3. Continuous 24 FPS Autoplay: Loops seamlessly as a 24 FPS live cosmic video.
+ * 
+ * Mobile Performance Optimizations:
+ * - IntersectionObserver pauses animation loop when canvas is fully occluded
+ * - DPR capped to 1.0 on mobile (avoids supersampling 238 frames at 3x)
+ * - cosmic-frame-tick only dispatched when integer frame actually changes
  */
 export default function CosmicBackgroundCanvas({
   currentSection,
@@ -27,6 +35,7 @@ export default function CosmicBackgroundCanvas({
   onPlaybackModeChange
 }) {
   const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const imagesRef = useRef([]);
   const animFrameIdRef = useRef(null);
   const lastFrameTimeRef = useRef(0);
@@ -40,6 +49,11 @@ export default function CosmicBackgroundCanvas({
   const scrollTargetFrameRef = useRef(1);
   const isUserScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef(null);
+
+  // Visibility tracking: pause rAF loop when canvas is fully off-screen
+  const isVisibleRef = useRef(true);
+  // Track last dispatched integer frame to avoid redundant DOM events
+  const lastDispatchedFrameRef = useRef(0);
 
   // Helper to find closest available loaded frame (Guarantees zero blank screen)
   const getBestImage = useCallback((frameFloat) => {
@@ -153,11 +167,13 @@ export default function CosmicBackgroundCanvas({
     };
   }, [drawFrame]);
 
-  // 3. Canvas Buffer Sizing
+  // 3. Canvas Buffer Sizing (DPR capped to 1.0 on mobile to save GPU fill-rate)
   const updateCanvasDimensions = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+    // Mobile: lock to 1.0 DPR to avoid supersampling 238 frames on a 3x Retina phone
+    // Desktop: allow up to 1.25 DPR for crisp rendering
+    const dpr = IS_MOBILE ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.25);
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -175,13 +191,36 @@ export default function CosmicBackgroundCanvas({
     return () => window.removeEventListener('resize', updateCanvasDimensions);
   }, [updateCanvasDimensions]);
 
-  // 4. Locked 24 FPS Animation Loop
+  // 3b. IntersectionObserver: pause canvas rAF when fully occluded by content sections
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 } // consider visible if even 5% is showing
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  // 4. Locked 24 FPS Animation Loop (pauses when canvas is not visible)
   useEffect(() => {
     let isCancelled = false;
     lastFrameTimeRef.current = performance.now();
 
     const tick = (timestamp) => {
       if (isCancelled) return;
+
+      // Skip drawing entirely when the canvas is fully off-screen
+      // This saves significant CPU/GPU on mobile when user is deep in Story/About
+      if (!isVisibleRef.current) {
+        animFrameIdRef.current = requestAnimationFrame(tick);
+        return;
+      }
 
       const elapsed = timestamp - lastFrameTimeRef.current;
 
@@ -226,10 +265,16 @@ export default function CosmicBackgroundCanvas({
           }
         }
 
-        // Notify Navbar telemetry HUD of active frame (zero React re-render overhead)
-        window.dispatchEvent(new CustomEvent('cosmic-frame-tick', {
-          detail: { frame: Math.round(currentFrameRef.current) }
-        }));
+        // Notify Navbar telemetry HUD of active frame
+        // Only dispatch when the integer frame actually changes to avoid
+        // firing 24 redundant DOM events per second on mobile
+        const currentInt = Math.round(currentFrameRef.current);
+        if (currentInt !== lastDispatchedFrameRef.current) {
+          lastDispatchedFrameRef.current = currentInt;
+          window.dispatchEvent(new CustomEvent('cosmic-frame-tick', {
+            detail: { frame: currentInt }
+          }));
+        }
       }
 
       animFrameIdRef.current = requestAnimationFrame(tick);
@@ -290,7 +335,7 @@ export default function CosmicBackgroundCanvas({
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+    <div ref={containerRef} className="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
       {/* 24 FPS Canvas */}
       <canvas
         ref={canvasRef}
